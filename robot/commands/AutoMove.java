@@ -3,7 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
-
+  
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
@@ -23,6 +23,7 @@ public class AutoMove extends CommandBase {
   private PIDController xPID;
   private PIDController yPID;
   private PIDController rotationPID;
+
 
   private double moveX;
   private double moveY;
@@ -44,9 +45,14 @@ public class AutoMove extends CommandBase {
     initialPosition = MecanumSubsystem.getOdometry();
     targetPosition = new Pose2d(initialPosition.getX() + xx, initialPosition.getY() + yy, initialPosition.getRotation().plus(rrotation));
 
+
     xPID = new PIDController(1, 1, 1);
     yPID = new PIDController(1, 1, 1);
     rotationPID = new PIDController(1, 1, 1);
+    
+    xPID.setSetpoint(targetPosition.getX());
+    yPID.setSetpoint(targetPosition.getY());
+    rotationPID.setSetpoint(targetPosition.getRotation().getDegrees());
 
   }
 
@@ -55,9 +61,6 @@ public class AutoMove extends CommandBase {
   @Override
   public void execute() {
     currentPosition = MecanumSubsystem.getOdometry();
-    xPID.setSetpoint(targetPosition.getX());
-    yPID.setSetpoint(targetPosition.getY());
-    rotationPID.setSetpoint(targetPosition.getRotation().getDegrees());
 
     if (xPID.atSetpoint() && yPID.atSetpoint() && rotationPID.atSetpoint()) {
       System.out.println("done");

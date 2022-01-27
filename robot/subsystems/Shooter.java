@@ -37,7 +37,9 @@ public class Shooter extends SubsystemBase {
   }
 
   public static void shooterSpeed(double poop, double stick) {
-    
+    if (stick < 0) {
+      stick = (double) 0;
+    }
     if (stick > .5) {
       poop = (double) 0.5;
     } else {
@@ -46,7 +48,7 @@ public class Shooter extends SubsystemBase {
 
     motor1.set(stick);
     motor2.set(stick);
-    //motor3.set(poop);
+    motor3.set(poop);
     //motor4.set(poop);
   }
 }

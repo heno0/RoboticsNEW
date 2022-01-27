@@ -15,14 +15,18 @@ import frc.robot.Constants;
 import frc.robot.commands.MecanumCommand;
 
 import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.SPI;
 import com.revrobotics.CANEncoder;
+import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 // IF  REV  IMPORTS FAIL AT ANY TIME!!!!!!
 // click WPILib button, click manage vendor libraries, click install new libraries online
 // USE THIS LINK!! 
 // https://www.revrobotics.com/content/sw/max/sdk/REVRobotics.json
+// for all cansparkmax imports
+// https://software-metadata.revrobotics.com/REVLib.json
 
 public class MecanumSubsystem extends SubsystemBase {
 
@@ -65,6 +69,9 @@ public class MecanumSubsystem extends SubsystemBase {
   private Pose2d initPos2d;
   private Rotation2d initHeading;
 
+
+
+
   /** Creates a new MecanumSubsystem. */
   public MecanumSubsystem() {
 
@@ -85,6 +92,7 @@ public class MecanumSubsystem extends SubsystemBase {
     RBL = new Translation2d(-0.3, -0.25);
     LFL = new Translation2d(0.3, 0.25);
     LBL = new Translation2d(-0.3, 0.25);
+
 
     // encoders
     RFE = frontRight.getEncoder();
