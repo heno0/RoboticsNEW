@@ -33,6 +33,9 @@ public class Limelight extends SubsystemBase {
     
     joystick = new Joystick(0); 
     
+    adjustRotation = 0;
+    adjustX = 0;
+    
   }
 
   @Override
@@ -47,6 +50,7 @@ public class Limelight extends SubsystemBase {
 
     // amount of space the target fills
     area = table.getEntry("ta").getDouble(0.0);
+
 
     if (joystick.getRawButton(Constants.ABUTTON)) {
       if (ifTarget) {

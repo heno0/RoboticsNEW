@@ -4,12 +4,12 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.geometry.Translation2d;
-import edu.wpi.first.wpilibj.kinematics.MecanumDriveKinematics;
-import edu.wpi.first.wpilibj.kinematics.MecanumDriveOdometry;
-import edu.wpi.first.wpilibj.kinematics.MecanumDriveWheelSpeeds;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.MecanumDriveKinematics;
+import edu.wpi.first.math.kinematics.MecanumDriveOdometry;
+import edu.wpi.first.math.kinematics.MecanumDriveWheelSpeeds;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.commands.MecanumCommand;
@@ -17,9 +17,8 @@ import frc.robot.commands.MecanumCommand;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.SPI;
-import com.revrobotics.CANEncoder;
-import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 // IF  REV  IMPORTS FAIL AT ANY TIME!!!!!!
 // click WPILib button, click manage vendor libraries, click install new libraries online
@@ -45,10 +44,10 @@ public class MecanumSubsystem extends SubsystemBase {
   public static MecanumDriveWheelSpeeds wheelSpeeds;
 
   // wheel encoders, e.g.(R = right, B = back, E = encoder)
-  private static CANEncoder RFE;
-  private static CANEncoder RBE;
-  private static CANEncoder LFE;
-  private static CANEncoder LBE;
+  private static RelativeEncoder RFE;
+  private static RelativeEncoder RBE;
+  private static RelativeEncoder LFE;
+  private static RelativeEncoder LBE;
 
   private static Rotation2d currentAngle;
 
@@ -68,9 +67,6 @@ public class MecanumSubsystem extends SubsystemBase {
   public static MecanumDriveOdometry initialPos;
   private Pose2d initPos2d;
   private Rotation2d initHeading;
-
-
-
 
   /** Creates a new MecanumSubsystem. */
   public MecanumSubsystem() {
@@ -93,12 +89,12 @@ public class MecanumSubsystem extends SubsystemBase {
     LFL = new Translation2d(0.3, 0.25);
     LBL = new Translation2d(-0.3, 0.25);
 
-
     // encoders
     RFE = frontRight.getEncoder();
     RBE = backRight.getEncoder();
     LFE = frontLeft.getEncoder();
     LBE = backLeft.getEncoder();
+
 
     // creating gyro object
     gyro = new AHRS(SPI.Port.kMXP, (byte) 50);
@@ -155,11 +151,6 @@ public class MecanumSubsystem extends SubsystemBase {
     }
 
 
-    // print statements
-    System.out.println("sitkcx");
-    System.out.println(stickX);
-    System.out.println("rotation" );
-    System.out.println(rotation);
 
 
     // math (thanks damian)

@@ -4,21 +4,34 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.commands.IntakeCommand;
 
 public class Intake extends SubsystemBase {
   private Spark motor;
+  private Joystick joystick;
+  private boolean activate;
   /** Creates a new Intake. */
-  public Intake() {
-    setDefaultCommand(new IntakeCommand(true));
+  public Intake(boolean active) {
     motor = new Spark(0);
-    motor.set(0.5);
+    active = activate;
+    joystick = new Joystick(0);
+
+    setDefaultCommand(new IntakeCommand(true));
+
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    if (joystick.getPOV() == 90 || activate == true) {
+      motor.set(-.7);
+    }
+    else if (joystick.getPOV() == 180 || activate == false) {
+      motor.set(0);
+    }
   }
 }

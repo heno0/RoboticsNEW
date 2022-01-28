@@ -6,7 +6,10 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class IntakeCommand extends CommandBase {
@@ -14,7 +17,11 @@ public class IntakeCommand extends CommandBase {
   
   private Compressor compressor;
   private DoubleSolenoid sol1;
-  private DoubleSolenoid sol2;
+  DoubleSolenoid sol2;
+
+  private Joystick joystick;
+
+  int pov;
   
   /** Creates a new Intake. */
   public IntakeCommand(boolean active) {
@@ -25,21 +32,23 @@ public class IntakeCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    compressor = new Compressor();
-    compressor.setClosedLoopControl(true);
+    compressor = new Compressor(PneumaticsModuleType.CTREPCM);
 
-    sol1 = new DoubleSolenoid(0, 1);
-    sol2 = new DoubleSolenoid(2, 3);
+    sol1 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
+    sol2 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 2, 3); 
 
-    if (activate) {
-      sol1.set(Value.kForward);
-      sol2.set(Value.kForward);
-    }
+    joystick = new Joystick(0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if (joystick.getPOV() == 0 || activate == true) {
+      setSolenoid(Value.kReverse);
+    }
+    if (joystick.getPOV() == 180 || activate == false) {
+      setSolenoid(Value.kForward);
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -50,5 +59,9 @@ public class IntakeCommand extends CommandBase {
   @Override
   public boolean isFinished() {
     return false;
+  }
+  public void setSolenoid(Value value) {
+    sol1.set(value);
+    sol2.set(value);
   }
 }

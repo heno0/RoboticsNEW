@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.MecanumSubsystem;
-import frc.robot.subsystems.Shooter;
 
 public class MecanumCommand extends CommandBase {
 
@@ -62,7 +61,6 @@ public class MecanumCommand extends CommandBase {
     
     // setting the speeds
     MecanumSubsystem.setSpeeds(stickX, stickY, rotation, 0.25);
-    Shooter.shooterSpeed(0, rightStick);
   }
 
   // Called once the command ends or is interrupted.

@@ -6,7 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.AutoMove;
 import frc.robot.commands.AutoPlan;
@@ -14,7 +14,7 @@ import frc.robot.commands.MecanumCommand;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.MecanumSubsystem;
-import frc.robot.subsystems.Shooter;
+import frc.robot.commands.Shooter;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -27,9 +27,9 @@ public class RobotContainer {
   public MecanumSubsystem mecanumSubsystem;
   private MecanumCommand mecanumCommand;
   private AutoMove autoMove;
-  private Shooter shooter;
   private Limelight limelight;
   private Intake intake;
+  private Shooter shooter;
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
@@ -40,13 +40,13 @@ public class RobotContainer {
     mecanumCommand = new MecanumCommand(mecanumSubsystem);
 
     // shooter
-    shooter = new Shooter();
+    shooter = new Shooter(false);
 
     // limelight
     limelight = new Limelight();
 
     // intake
-    intake = new Intake();
+    intake = new Intake(false);
   }
 
   /**
