@@ -1,4 +1,2 @@
 # RoboticsNEW
-new - dont use old
-upload the 'robot' folder
-rundle 2022
+when uploading, upload 'robot' folder - import vendordeps files into 'vendordeps' folder
