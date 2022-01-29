@@ -52,20 +52,13 @@ public class Shooter extends CommandBase {
   public void execute() {
     
     // math calculations
-    // link: https://www.desmos.com/calculator/gqjyztmehn 
-    rStick = (Math.pow(1, rStick)) + .1;
+    // link: https://www.desmos.com/calculator/vd0jecbamp
+    rStick = (Math.pow(rStick, 2)) + .1;
     pow3 = rStick/2.5;
 
-    // all if statements concerning the minimum and maximum values
-    if (rStick < 0) {
-      rStick = 0;
-    } if (pow3 < 0) {
-      pow3 = 0;
-    } if (pow3 > 1) {
-      pow3 = 1;
-    } if (rStick > 1) {
-      rStick = 1;
-    }
+    // maxmin
+    rStick = Constants.maxmin(rStick, 1);
+    pow3 = Constants.maxmin(pow3, 1);
 
     // final if statements
     if (activate == true) {
@@ -73,8 +66,7 @@ public class Shooter extends CommandBase {
       motor1.set(1);
       motor2.set(-1);
       logMotor.set(.44);
-    }
-    else {
+    } else {
       // setting motors
       motor1.set(rStick);
       motor2.set(-rStick);
@@ -85,9 +77,6 @@ public class Shooter extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    motor1.set(0);
-    motor2.set(0);
-    logMotor.set(0);
   }
 
   // Returns true when the command should end.

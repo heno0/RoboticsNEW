@@ -58,11 +58,5 @@ public final class Constants {
 
         return maxmin;
     }
-    public double max(double value, double max) {
-        if (value > max) {
-            value = max;
-        }
-        return value;
-    }
 
 }

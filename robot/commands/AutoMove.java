@@ -66,8 +66,7 @@ public class AutoMove extends CommandBase {
     if (xPID.atSetpoint() && yPID.atSetpoint() && rotationPID.atSetpoint()) {
       System.out.println("done");
       MecanumSubsystem.setSpeeds(0, 0, 0, 0);
-    }
-    else {
+    } else {
       // move calculations
       moveX = xPID.calculate(currentPosition.getX());
       moveY = yPID.calculate(currentPosition.getY());

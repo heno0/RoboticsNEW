@@ -142,11 +142,9 @@ public class MecanumSubsystem extends SubsystemBase {
     // deadzone
     if (Math.abs(stickX) < deadzone) {
       stickX = (double) 0;
-    }
-    if (Math.abs(stickY) < deadzone) {
+    } if (Math.abs(stickY) < deadzone) {
       stickY = (double) 0;
-    }
-    if (Math.abs(rotation) < deadzone) {
+    } if (Math.abs(rotation) < deadzone) {
       rotation = (double) 0;
     }
 

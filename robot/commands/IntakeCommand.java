@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class IntakeCommand extends CommandBase {
@@ -45,8 +44,7 @@ public class IntakeCommand extends CommandBase {
   public void execute() {
     if (joystick.getPOV() == 0 || activate == true) {
       setSolenoid(Value.kReverse);
-    }
-    if (joystick.getPOV() == 180 || activate == false) {
+    } if (joystick.getPOV() == 180 || activate == false) {
       setSolenoid(Value.kForward);
     }
   }

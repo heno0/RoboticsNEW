@@ -57,16 +57,14 @@ public class Limelight extends SubsystemBase {
         // rotation from offset
         if (xOffset < -4) {
           adjustRotation = -.25;
-        }
-        if (xOffset > 4) {
+        } if (xOffset > 4) {
           adjustRotation = .25;
         }
 
         // forward/back from area
         if (area < 10) {
           adjustX = .25;
-        }
-        if (area > 25) {
+        } if (area > 25) {
           adjustX = -.25;
         }
       }
