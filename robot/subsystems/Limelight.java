@@ -53,7 +53,7 @@ public class Limelight extends SubsystemBase {
 
 
     if (joystick.getRawButton(Constants.ABUTTON)) {
-      if (ifTarget) {
+      if (ifTarget == true) {
         // rotation from offset
         if (xOffset < -4) {
           adjustRotation = -.25;
@@ -67,6 +67,10 @@ public class Limelight extends SubsystemBase {
         } if (area > 25) {
           adjustX = -.25;
         }
+      }
+      else {
+        adjustRotation = .5;
+        adjustX = 0;
       }
    }
 

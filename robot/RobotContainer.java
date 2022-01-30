@@ -14,7 +14,7 @@ import frc.robot.commands.MecanumCommand;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.MecanumSubsystem;
-import frc.robot.commands.Shooter;
+import frc.robot.subsystems.Shooter;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -40,7 +40,7 @@ public class RobotContainer {
     mecanumCommand = new MecanumCommand(mecanumSubsystem);
 
     // shooter
-    shooter = new Shooter(false);
+    shooter = new Shooter();
 
     // limelight
     limelight = new Limelight();
