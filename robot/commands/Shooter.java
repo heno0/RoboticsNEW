@@ -88,5 +88,5 @@ public class Shooter extends CommandBase {
   @Override
   public boolean isFinished() {
     return false;
-  }
+  } 
 }
