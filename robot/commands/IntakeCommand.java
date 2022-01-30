@@ -42,9 +42,9 @@ public class IntakeCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (joystick.getPOV() == 0 || activate == true) {
+    if (joystick.getPOV() == 0 || activate == false) {
       setSolenoid(Value.kReverse);
-    } if (joystick.getPOV() == 180 || activate == false) {
+    } if (joystick.getPOV() == 180 || activate == true) {
       setSolenoid(Value.kForward);
     }
   }

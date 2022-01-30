@@ -48,6 +48,14 @@ public class Shooter extends SubsystemBase {
     // maxmin
     rStick = Constants.maxmin(rStick, 1);
     pow3 = Constants.maxmin(pow3, 1);
+
+    if (Math.abs(rStick) < .15) {
+      rStick = 0;
+    }
+    if (Math.abs(pow3) < .1) {
+      pow3 = 0;
+    }
+
     // setting motors
     motor1.set(rStick);
     motor2.set(-rStick);

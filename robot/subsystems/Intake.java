@@ -28,7 +28,7 @@ public class Intake extends SubsystemBase {
     // This method will be called once per scheduler run
     if (joystick.getPOV() == 90 || activate == true) {
       motor.set(-.7);
-    } else if (joystick.getPOV() == 180 || activate == false) {
+    } else if (joystick.getPOV() == 1270 || activate == false) {
       motor.set(0);
     }
   }
