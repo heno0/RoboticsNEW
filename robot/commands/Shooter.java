@@ -76,7 +76,7 @@ public class Shooter extends CommandBase {
       motor1.set(rStick);
       motor2.set(-rStick);
       logMotor.set(pow3);
-    }
+    } 
   }
 
   // Called once the command ends or is interrupted.
