@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -18,6 +19,8 @@ public class Limelight extends SubsystemBase {
   private boolean ifTarget;
 
   private double xOffset;
+  private double yOffset;
+  private double rOffset;
   private double area;
 
   private Joystick joystick;
@@ -30,8 +33,9 @@ public class Limelight extends SubsystemBase {
   public Limelight() {
     // assign table value
     table = NetworkTableInstance.getDefault().getTable("limelight");
+    table.getEntry("tcornxy");
     
-    joystick = new Joystick(0); 
+    joystick = new Joystick(Constants.JOYSTICKID); 
     
     adjustRotation = 0;
     adjustX = 0;
@@ -47,32 +51,16 @@ public class Limelight extends SubsystemBase {
 
     // offset from crosshair
     xOffset = table.getEntry("tx").getDouble(0.0);
-
+    yOffset = table.getEntry("ty").getDouble(0.0);
+    rOffset = table.getEntry("ts").getDouble(0.0);
+    
     // amount of space the target fills
     area = table.getEntry("ta").getDouble(0.0);
 
 
-    if (joystick.getRawButton(Constants.ABUTTON)) {
-      if (ifTarget == true) {
-        // rotation from offset
-        if (xOffset < -4) {
-          adjustRotation = -.25;
-        } if (xOffset > 4) {
-          adjustRotation = .25;
-        }
-
-        // forward/back from area
-        if (area < 10) {
-          adjustX = .25;
-        } if (area > 25) {
-          adjustX = -.25;
-        }
-      }
-      else {
-        adjustRotation = .5;
-        adjustX = 0;
-      }
-   }
+    SmartDashboard.putNumber("x offset", xOffset);
+    SmartDashboard.putNumber("y offset", yOffset);
+    SmartDashboard.putNumber("rotation offset", rOffset);
 
     MecanumSubsystem.setSpeeds(0, adjustX, adjustRotation, .1);
   }

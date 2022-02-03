@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 
 public class IntakeCommand extends CommandBase {
   private boolean activate;
@@ -31,12 +32,12 @@ public class IntakeCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    compressor = new Compressor(PneumaticsModuleType.CTREPCM);
+    compressor = new Compressor(PneumaticsModuleType.REVPH);
 
-    sol1 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
-    sol2 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 2, 3); 
+    sol1 = new DoubleSolenoid(PneumaticsModuleType.REVPH, 0, 1);
+    sol2 = new DoubleSolenoid(PneumaticsModuleType.REVPH, 2, 3); 
 
-    joystick = new Joystick(0);
+    joystick = new Joystick(Constants.JOYSTICKID);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -59,7 +60,7 @@ public class IntakeCommand extends CommandBase {
     return false;
   }
   public void setSolenoid(Value value) {
-    sol1.set(value);
-    sol2.set(value);
+    //sol1.set(value);
+    //sol2.set(value);
   }
 }

@@ -5,10 +5,12 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -18,6 +20,9 @@ public class Shooter extends SubsystemBase {
   private static Spark logMotor;
 
   private static Joystick joystick;
+
+  private RelativeEncoder encoder;
+  private RelativeEncoder encoder2;
 
 
   private double rStick;
@@ -30,35 +35,36 @@ public class Shooter extends SubsystemBase {
 
     // bottom motor and rollercoaster
     logMotor = new Spark(1);
+    encoder = motor1.getEncoder();
+    joystick = new Joystick(Constants.JOYSTICKID);
 
-    joystick = new Joystick(0);
-
-    rStick = joystick.getRawAxis(Constants.RIGHTSTICK);
+    
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-
     // math calculations
     // link:https://www.desmos.com/calculator/wm5vyubbee
-    rStick = (Math.pow(rStick, 2)) + .1;
-    pow3 = rStick/2.5;
+    rStick = -1*joystick.getRawAxis(Constants.RIGHTSTICK);
+    pow3 = rStick;
 
-    // maxmin
-    rStick = Constants.maxmin(rStick, 1);
-    pow3 = Constants.maxmin(pow3, 1);
-
-    if (Math.abs(rStick) < .15) {
+  
+    SmartDashboard.putNumber("rpm", encoder.getVelocity());
+    if (rStick < .1) {
       rStick = 0;
-    }
-    if (Math.abs(pow3) < .1) {
+    } if (pow3 < .05) {
       pow3 = 0;
+    } if (rStick > 1) {
+      rStick = 1;
+    } if (pow3 > 1) {
+      pow3 = 1;
     }
+  
 
     // setting motors
-    motor1.set(rStick);
-    motor2.set(-rStick);
-    logMotor.set(pow3);
+    motor1.set(-rStick);
+    motor2.set(rStick);
+    logMotor.set(-pow3);
   }
 }

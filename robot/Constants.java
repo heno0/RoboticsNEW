@@ -23,7 +23,7 @@ public final class Constants {
     public static final int BACKLEFTMOTOR = 4;
 
     // JOYSTICK
-    public static final int JOYSTICKID = 0;
+    public static final int JOYSTICKID = 1;
     public static final int LEFTSTICKY = 1;
     public static final int LEFTSTICKX = 0;
     public static final int RT = 3;

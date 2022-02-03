@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.commands.IntakeCommand;
 
 public class Intake extends SubsystemBase {
@@ -16,10 +17,10 @@ public class Intake extends SubsystemBase {
   /** Creates a new Intake. */
   public Intake(boolean active) {
     motor = new Spark(0);
-    active = activate;
-    joystick = new Joystick(0);
+    activate = active;
+    joystick = new Joystick(Constants.JOYSTICKID);
 
-    setDefaultCommand(new IntakeCommand(true));
+    //setDefaultCommand(new IntakeCommand(true));
 
   }
 
@@ -28,7 +29,7 @@ public class Intake extends SubsystemBase {
     // This method will be called once per scheduler run
     if (joystick.getPOV() == 90 || activate == true) {
       motor.set(-.7);
-    } else if (joystick.getPOV() == 1270 || activate == false) {
+    } else if (joystick.getPOV() == 270) {
       motor.set(0);
     }
   }

@@ -43,7 +43,7 @@ public class RobotContainer {
     shooter = new Shooter();
 
     // limelight
-    limelight = new Limelight();
+    //limelight = new Limelight();
 
     // intake
     intake = new Intake(false);

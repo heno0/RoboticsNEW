@@ -72,9 +72,9 @@ public class AutoMove extends CommandBase {
       moveY = yPID.calculate(currentPosition.getY());
       moveRotation = rotationPID.calculate(currentPosition.getRotation().getDegrees());
 
-      moveX = Constants.maxmin(moveX, 1);
-      moveY = Constants.maxmin(moveY, 1);
-      moveRotation = Constants.maxmin(moveRotation, 1);
+      //moveX = Constants.maxmin(moveX, 1);
+      //moveY = Constants.maxmin(moveY, 1);
+      //moveRotation = Constants.maxmin(moveRotation, 1);
 
       MecanumSubsystem.setSpeeds(moveX, moveY, moveRotation, 0.1);
     }    
