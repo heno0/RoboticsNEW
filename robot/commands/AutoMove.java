@@ -5,6 +5,8 @@
 package frc.robot.commands;
   
 
+import javax.naming.InitialContext;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -42,25 +44,28 @@ public class AutoMove extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // creates initial and target position based on values given when command called
+    // initial position for get odometry, this will never change
     initialPosition = MecanumSubsystem.getOdometry();
+
+    // target position from initial position and the meters of where it wants to go
     targetPosition = new Pose2d(initialPosition.getX() + xx, initialPosition.getY() + yy, initialPosition.getRotation().plus(rrotation));
 
-
+    // creates pid controllers with for X, Y, and rotation for the driving
     xPID = new PIDController(1, 1, 1);
     yPID = new PIDController(1, 1, 1);
     rotationPID = new PIDController(1, 1, 1);
     
+    // set the point for where the pid controllers want to go, they will calculate for this point
     xPID.setSetpoint(targetPosition.getX());
     yPID.setSetpoint(targetPosition.getY());
     rotationPID.setSetpoint(targetPosition.getRotation().getDegrees());
-
   }
 
   
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    // gets where the current position is since its in periodic
     currentPosition = MecanumSubsystem.getOdometry();
 
     if (xPID.atSetpoint() && yPID.atSetpoint() && rotationPID.atSetpoint()) {
@@ -72,9 +77,9 @@ public class AutoMove extends CommandBase {
       moveY = yPID.calculate(currentPosition.getY());
       moveRotation = rotationPID.calculate(currentPosition.getRotation().getDegrees());
 
-      //moveX = Constants.maxmin(moveX, 1);
-      //moveY = Constants.maxmin(moveY, 1);
-      //moveRotation = Constants.maxmin(moveRotation, 1);
+      moveX = Constants.maxmin(moveX, 1);
+      moveY = Constants.maxmin(moveY, 1);
+      moveRotation = Constants.maxmin(moveRotation, 1);
 
       MecanumSubsystem.setSpeeds(moveX, moveY, moveRotation, 0.1);
     }    

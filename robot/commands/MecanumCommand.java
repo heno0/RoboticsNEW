@@ -31,7 +31,6 @@ public class MecanumCommand extends CommandBase {
   public double frontLeftPower;
   public double backLeftPower;
 
-  private double rightStick;
 
   /** Creates a new MecanumCommand. */
   public MecanumCommand(MecanumSubsystem mecanum) {
@@ -54,7 +53,6 @@ public class MecanumCommand extends CommandBase {
     // getting input values
     stickX = joystick.getRawAxis(Constants.LEFTSTICKX);
     stickY = -1 * joystick.getRawAxis(Constants.LEFTSTICKY);
-    rightStick = joystick.getRawAxis(Constants.RIGHTSTICK);
     
     // idfk (thanks damian)
     rotation = (joystick.getRawAxis(Constants.RT) - joystick.getRawAxis(Constants.LT));

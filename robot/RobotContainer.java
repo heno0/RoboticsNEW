@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.AutoMove;
 import frc.robot.commands.AutoPlan;
 import frc.robot.commands.MecanumCommand;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.MecanumSubsystem;
@@ -30,6 +31,10 @@ public class RobotContainer {
   private Limelight limelight;
   private Intake intake;
   private Shooter shooter;
+
+  //AT
+  //private Climber climber;
+  
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
@@ -42,11 +47,16 @@ public class RobotContainer {
     // shooter
     shooter = new Shooter();
 
-    // limelight
-    //limelight = new Limelight();
+     //limelight
+    limelight = new Limelight();
 
-    // intake
+    //intake
     intake = new Intake(false);
+
+    //Climber  AT
+    //climber = new Climber();
+
+
   }
 
   /**

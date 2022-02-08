@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.commands.IntakeCommand;
@@ -14,23 +15,40 @@ public class Intake extends SubsystemBase {
   private Spark motor;
   private Joystick joystick;
   private boolean activate;
+
+  // intake is used to check if the intake motors are on or off
+  private boolean intake;
+  //double intakeSpeed = 0.0;
   /** Creates a new Intake. */
   public Intake(boolean active) {
+    // set motor
     motor = new Spark(0);
-    activate = active;
-    joystick = new Joystick(Constants.JOYSTICKID);
 
-    //setDefaultCommand(new IntakeCommand(true));
+    // set activate variable - used to enable intake from other variable
+    activate = active;
+
+    // set joystick
+    joystick = new Joystick(Constants.SECONDARYJOYSTICK);
+
+    // set command for the intake command
+    setDefaultCommand(new IntakeCommand(true));
 
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    // setting the intake
     if (joystick.getPOV() == 90 || activate == true) {
-      motor.set(-.7);
+      // if joystick dpad is right, turn on
+      motor.set(-1);
+      intake = true;
     } else if (joystick.getPOV() == 270) {
+      // if its left, turn off
       motor.set(0);
+      intake = false;
     }
+    // set intake variables
+    SmartDashboard.putBoolean("Intake", intake);
   }
 }

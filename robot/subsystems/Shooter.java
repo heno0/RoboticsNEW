@@ -18,6 +18,9 @@ public class Shooter extends SubsystemBase {
   private static CANSparkMax motor1;
   private static CANSparkMax motor2;
   private static Spark logMotor;
+  //double speed = 0.5;
+  double increment = 0.05;
+  double indexSpeed = 0.5;
 
   private static Joystick joystick;
 
@@ -25,7 +28,7 @@ public class Shooter extends SubsystemBase {
   private RelativeEncoder encoder2;
 
 
-  private double rStick;
+  //private double rStick;
   private double pow3;
   /** Creates a new Shooter. */
   public Shooter() {
@@ -33,12 +36,14 @@ public class Shooter extends SubsystemBase {
     motor1 = new CANSparkMax(5, MotorType.kBrushless);
     motor2 = new CANSparkMax(6, MotorType.kBrushless);
 
-    // bottom motor and rollercoaster
-    logMotor = new Spark(1);
-    encoder = motor1.getEncoder();
-    joystick = new Joystick(Constants.JOYSTICKID);
+    // log ride motor
+    logMotor = new Spark(3);
 
-    
+    // encoder for seeing speeds
+    encoder = motor1.getEncoder();
+
+    // setting joystick
+    joystick = new Joystick(Constants.SECONDARYJOYSTICK);
   }
 
   @Override
@@ -46,25 +51,44 @@ public class Shooter extends SubsystemBase {
     // This method will be called once per scheduler run
     // math calculations
     // link:https://www.desmos.com/calculator/wm5vyubbee
-    rStick = -1*joystick.getRawAxis(Constants.RIGHTSTICK);
-    pow3 = rStick;
-
   
+    // get rpm for shooter motor
     SmartDashboard.putNumber("rpm", encoder.getVelocity());
-    if (rStick < .1) {
-      rStick = 0;
-    } if (pow3 < .05) {
-      pow3 = 0;
-    } if (rStick > 1) {
-      rStick = 1;
-    } if (pow3 > 1) {
-      pow3 = 1;
+    
+    if (joystick.getRawButtonPressed(6)) {
+      // right bumper, increase log motor if right bumper pressed
+      pow3 = pow3 + increment;
+      if (pow3 >=1.0){
+          pow3 = 1.0;
+      }
+    } else if (joystick.getRawButtonPressed(5)) {
+      // if left bumper is pressed decrease log motor
+      pow3 = pow3 - increment;
+      if (pow3 <= 0){
+          pow3 = 0;
+      }
+    } if (joystick.getRawButtonPressed(Constants.ABUTTON)) {
+      // if the a button is pressed, then decrease the indexer 
+      indexSpeed = indexSpeed - increment;
+      if (indexSpeed <= 0) {
+        indexSpeed = 0;
+      } 
+    } else if (joystick.getRawButtonPressed(Constants.YBUTTON)) {
+      // if the y button is pressed then increase the indexer
+      indexSpeed = indexSpeed + increment;
+      if (indexSpeed >= 1.0) {
+        indexSpeed = 1.0;
+      }
     }
-  
 
-    // setting motors
-    motor1.set(-rStick);
-    motor2.set(rStick);
-    logMotor.set(-pow3);
+    // display number
+    SmartDashboard.putNumber("Shooter Speed", pow3);
+    SmartDashboard.putNumber("Index Speed", indexSpeed);
+
+    //setting motors
+    motor1.set(-pow3); 
+    motor2.set(pow3);
+    logMotor.set(-indexSpeed); 
+      
   }
 }

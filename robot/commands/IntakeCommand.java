@@ -32,12 +32,12 @@ public class IntakeCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    compressor = new Compressor(PneumaticsModuleType.REVPH);
+    compressor = new Compressor(PneumaticsModuleType.CTREPCM);
 
-    sol1 = new DoubleSolenoid(PneumaticsModuleType.REVPH, 0, 1);
-    sol2 = new DoubleSolenoid(PneumaticsModuleType.REVPH, 2, 3); 
+    sol1 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
+    sol2 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 2, 3); 
 
-    joystick = new Joystick(Constants.JOYSTICKID);
+    joystick = new Joystick(Constants.SECONDARYJOYSTICK);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -60,7 +60,7 @@ public class IntakeCommand extends CommandBase {
     return false;
   }
   public void setSolenoid(Value value) {
-    //sol1.set(value);
-    //sol2.set(value);
+    sol1.set(value);
+    sol2.set(value);
   }
 }
