@@ -5,11 +5,13 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.AutoMove;
 import frc.robot.commands.AutoPlan;
+import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.MecanumCommand;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Intake;
@@ -30,10 +32,14 @@ public class RobotContainer {
   private AutoMove autoMove;
   private Limelight limelight;
   private Intake intake;
+  private IntakeCommand intakeCommand;
   private Shooter shooter;
 
   //AT
-  //private Climber climber;
+  private Climber climber;
+
+  public static Joystick joystick;
+  public static Joystick joystick2;
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -51,12 +57,14 @@ public class RobotContainer {
     limelight = new Limelight();
 
     //intake
-    intake = new Intake(false);
+    intake = new Intake();
+    intakeCommand = new IntakeCommand(intake);
 
     //Climber  AT
-    //climber = new Climber();
+    climber = new Climber();
 
-
+    joystick = new Joystick(Constants.JOYSTICKID);
+    joystick2 = new Joystick(Constants.SECONDARYJOYSTICK);
   }
 
   /**

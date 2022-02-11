@@ -12,7 +12,6 @@ public class AutoPlan extends SequentialCommandGroup {
   public AutoPlan() {
     // Use addRequirements() here to declare subsystem dependencies.
     addCommands(
-      new IntakeCommand(true),
       new AutoMove(-2, 10, new Rotation2d(90))
     );
   }

@@ -23,7 +23,6 @@ public class Limelight extends SubsystemBase {
   private double rOffset;
   private double area;
 
-  private Joystick joystick;
 
   // drive values
   private double adjustX;
@@ -34,8 +33,6 @@ public class Limelight extends SubsystemBase {
     // assign table value
     table = NetworkTableInstance.getDefault().getTable("limelight");
     table.getEntry("tcornxy");
-    
-    joystick = new Joystick(Constants.JOYSTICKID); 
     
     adjustRotation = 0;
     adjustX = 0;

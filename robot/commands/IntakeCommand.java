@@ -6,48 +6,45 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
+import frc.robot.subsystems.Intake;
 
 public class IntakeCommand extends CommandBase {
   private boolean activate;
   
   private Compressor compressor;
-  private DoubleSolenoid sol1;
-  DoubleSolenoid sol2;
-
-  private Joystick joystick;
-
+  private DoubleSolenoid sol2;
+  private Intake intakeC;
   int pov;
   
   /** Creates a new Intake. */
-  public IntakeCommand(boolean active) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    active = activate;
+  public IntakeCommand(Intake intake) {
+    // Use addRequirements() here to declare subsystem dependencies.dddr
+    intakeC = intake;
+    addRequirements(intake);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    compressor = new Compressor(PneumaticsModuleType.CTREPCM);
+    compressor = new Compressor(0, PneumaticsModuleType.CTREPCM);
+    compressor.enableDigital();
 
-    sol1 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
-    sol2 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 2, 3); 
-
-    joystick = new Joystick(Constants.SECONDARYJOYSTICK);
+    sol2 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 3); 
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (joystick.getPOV() == 0 || activate == false) {
+    if (RobotContainer.joystick.getPOV() == 0) {
       setSolenoid(Value.kReverse);
-    } if (joystick.getPOV() == 180 || activate == true) {
+    } if (RobotContainer.joystick.getPOV() == 180) {
       setSolenoid(Value.kForward);
-    }
+    } 
   }
 
   // Called once the command ends or is interrupted.
@@ -60,7 +57,6 @@ public class IntakeCommand extends CommandBase {
     return false;
   }
   public void setSolenoid(Value value) {
-    sol1.set(value);
     sol2.set(value);
   }
 }

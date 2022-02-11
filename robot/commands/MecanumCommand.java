@@ -3,10 +3,9 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
-
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.MecanumSubsystem;
 
 public class MecanumCommand extends CommandBase {
@@ -16,9 +15,6 @@ public class MecanumCommand extends CommandBase {
   // sticks
   public double stickX;
   public double stickY;
-
-  // joystick
-  public Joystick joystick;
 
   // rotation
   public double rotation;
@@ -43,19 +39,17 @@ public class MecanumCommand extends CommandBase {
   @Override
   public void initialize() {
     
-    joystick = new Joystick(Constants.JOYSTICKID);
-    
   }
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
 
     // getting input values
-    stickX = joystick.getRawAxis(Constants.LEFTSTICKX);
-    stickY = -1 * joystick.getRawAxis(Constants.LEFTSTICKY);
+    stickX = RobotContainer.joystick.getRawAxis(Constants.LEFTSTICKX);
+    stickY = -1 * RobotContainer.joystick.getRawAxis(Constants.LEFTSTICKY);
     
     // idfk (thanks damian)
-    rotation = (joystick.getRawAxis(Constants.RT) - joystick.getRawAxis(Constants.LT));
+    rotation = (RobotContainer.joystick.getRawAxis(Constants.RT) - RobotContainer.joystick.getRawAxis(Constants.LT));
     
     // setting the speeds
     MecanumSubsystem.setSpeeds(stickX, stickY, rotation, 0.25);
@@ -72,4 +66,3 @@ public class MecanumCommand extends CommandBase {
     return false;
   }
 }
- 

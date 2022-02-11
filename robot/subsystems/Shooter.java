@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 
 public class Shooter extends SubsystemBase {
   private static CANSparkMax motor1;
@@ -22,7 +23,6 @@ public class Shooter extends SubsystemBase {
   double increment = 0.05;
   double indexSpeed = 0.5;
 
-  private static Joystick joystick;
 
   private RelativeEncoder encoder;
   private RelativeEncoder encoder2;
@@ -42,8 +42,6 @@ public class Shooter extends SubsystemBase {
     // encoder for seeing speeds
     encoder = motor1.getEncoder();
 
-    // setting joystick
-    joystick = new Joystick(Constants.SECONDARYJOYSTICK);
   }
 
   @Override
@@ -55,25 +53,25 @@ public class Shooter extends SubsystemBase {
     // get rpm for shooter motor
     SmartDashboard.putNumber("rpm", encoder.getVelocity());
     
-    if (joystick.getRawButtonPressed(6)) {
+    if (RobotContainer.joystick.getRawButtonPressed(6)) {
       // right bumper, increase log motor if right bumper pressed
       pow3 = pow3 + increment;
       if (pow3 >=1.0){
           pow3 = 1.0;
       }
-    } else if (joystick.getRawButtonPressed(5)) {
+    } else if (RobotContainer.joystick.getRawButtonPressed(5)) {
       // if left bumper is pressed decrease log motor
       pow3 = pow3 - increment;
       if (pow3 <= 0){
           pow3 = 0;
       }
-    } if (joystick.getRawButtonPressed(Constants.ABUTTON)) {
+    } if (RobotContainer.joystick.getRawButtonPressed(Constants.ABUTTON)) {
       // if the a button is pressed, then decrease the indexer 
       indexSpeed = indexSpeed - increment;
       if (indexSpeed <= 0) {
         indexSpeed = 0;
       } 
-    } else if (joystick.getRawButtonPressed(Constants.YBUTTON)) {
+    } else if (RobotContainer.joystick.getRawButtonPressed(Constants.YBUTTON)) {
       // if the y button is pressed then increase the indexer
       indexSpeed = indexSpeed + increment;
       if (indexSpeed >= 1.0) {
