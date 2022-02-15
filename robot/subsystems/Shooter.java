@@ -21,7 +21,11 @@ public class Shooter extends SubsystemBase {
   private static Spark logMotor;
   //double speed = 0.5;
   double increment = 0.05;
-  double indexSpeed = 0.5;
+  double indexSpeed = 0;
+
+  private String color;
+  private String wantedColor = Constants.WANTEDCOLOR;
+  private String opps = Constants.OPPS;
 
 
   private RelativeEncoder encoder;
@@ -37,7 +41,7 @@ public class Shooter extends SubsystemBase {
     motor2 = new CANSparkMax(6, MotorType.kBrushless);
 
     // log ride motor
-    logMotor = new Spark(3);
+    logMotor = new Spark(1);
 
     // encoder for seeing speeds
     encoder = motor1.getEncoder();
@@ -59,25 +63,25 @@ public class Shooter extends SubsystemBase {
       if (pow3 >=1.0){
           pow3 = 1.0;
       }
-    } else if (RobotContainer.joystick.getRawButtonPressed(5)) {
+    } else if (RobotContainer.joystick2.getRawButtonPressed(5)) {
       // if left bumper is pressed decrease log motor
       pow3 = pow3 - increment;
       if (pow3 <= 0){
           pow3 = 0;
       }
-    } if (RobotContainer.joystick.getRawButtonPressed(Constants.ABUTTON)) {
+    } if (RobotContainer.joystick2.getRawButtonPressed(Constants.ABUTTON)) {
       // if the a button is pressed, then decrease the indexer 
       indexSpeed = indexSpeed - increment;
       if (indexSpeed <= 0) {
         indexSpeed = 0;
       } 
-    } else if (RobotContainer.joystick.getRawButtonPressed(Constants.YBUTTON)) {
+    } else if (RobotContainer.joystick2.getRawButtonPressed(Constants.YBUTTON)) {
       // if the y button is pressed then increase the indexer
       indexSpeed = indexSpeed + increment;
       if (indexSpeed >= 1.0) {
         indexSpeed = 1.0;
       }
-    }
+    } 
 
     // display number
     SmartDashboard.putNumber("Shooter Speed", pow3);

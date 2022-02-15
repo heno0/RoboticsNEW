@@ -17,6 +17,7 @@ import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.MecanumSubsystem;
+import frc.robot.subsystems.Sensors;
 import frc.robot.subsystems.Shooter;
 
 /**
@@ -34,6 +35,7 @@ public class RobotContainer {
   private Intake intake;
   private IntakeCommand intakeCommand;
   private Shooter shooter;
+  private Sensors sensors;
 
   //AT
   private Climber climber;
@@ -55,6 +57,9 @@ public class RobotContainer {
 
      //limelight
     limelight = new Limelight();
+
+    // sensors
+    sensors = new Sensors();
 
     //intake
     intake = new Intake();

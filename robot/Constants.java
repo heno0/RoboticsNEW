@@ -23,7 +23,7 @@ public final class Constants {
     public static final int BACKLEFTMOTOR = 4;
 
     // JOYSTICK
-    public static final int JOYSTICKID = 0;
+    public static final int JOYSTICKID = 1;
     public static final int SECONDARYJOYSTICK = 1;
     public static final int LEFTSTICKY = 1;
     public static final int LEFTSTICKX = 0;
@@ -46,6 +46,10 @@ public final class Constants {
     // STARTING POS
     public static final float STARTX = 1;
     public static final float STARTY = 1;
+
+    // COLORS
+    public static final String OPPS = "Blue";
+    public static final String WANTEDCOLOR = "Red";
 
     public static double maxmin(double value, double maxmin) {
         if (value > maxmin) {

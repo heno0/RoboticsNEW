@@ -20,7 +20,6 @@ public class Limelight extends SubsystemBase {
 
   private double xOffset;
   private double yOffset;
-  private double rOffset;
   private double area;
 
 
@@ -28,11 +27,13 @@ public class Limelight extends SubsystemBase {
   private double adjustX;
   private double adjustRotation;
   
+  private double horizontal;
+  private double vertical;
+
   /** Creates a new Limelight. */
   public Limelight() {
     // assign table value
     table = NetworkTableInstance.getDefault().getTable("limelight");
-    table.getEntry("tcornxy");
     
     adjustRotation = 0;
     adjustX = 0;
@@ -44,21 +45,23 @@ public class Limelight extends SubsystemBase {
     // This method will be called once per scheduler run
     
     // assign values from table
-    ifTarget = table.getEntry("tv").getBoolean(false);
-
     // offset from crosshair
     xOffset = table.getEntry("tx").getDouble(0.0);
     yOffset = table.getEntry("ty").getDouble(0.0);
-    rOffset = table.getEntry("ts").getDouble(0.0);
-    
     // amount of space the target fills
     area = table.getEntry("ta").getDouble(0.0);
 
+    horizontal = table.getEntry("thor").getDouble(0.0);
+    vertical = table.getEntry("tvert").getDouble(0.0);
 
+    SmartDashboard.putNumber("vertical", vertical);
+    SmartDashboard.putNumber("horizontal", horizontal);
     SmartDashboard.putNumber("x offset", xOffset);
     SmartDashboard.putNumber("y offset", yOffset);
-    SmartDashboard.putNumber("rotation offset", rOffset);
+    
+   
 
     MecanumSubsystem.setSpeeds(0, adjustX, adjustRotation, .1);
   }
+
 }

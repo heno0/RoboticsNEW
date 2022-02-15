@@ -7,22 +7,26 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.commands.IntakeCommand;
 
 public class Intake extends SubsystemBase {
   private Spark motor;
+  private String wantedColour = Constants.WANTEDCOLOR;
+  private String opposite = Constants.OPPS;
 
-  // intake is used to check if the intake motors are on or off
-  private boolean intake;
+  private String color;
+  // intake is used to check if the intake motors are moving in, out, or not moving
+  private String intake;
   //double intakeSpeed = 0.0;
   /** Creates a new Intake. */
   public Intake() {
     // set motor
     motor = new Spark(0);
-
 
 
     // set command for the intake command
@@ -33,17 +37,27 @@ public class Intake extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
+    // get color from color sensor
+    //color = Sensors.determineColour();
+    color = "p";
     // setting the intake
-    if (RobotContainer.joystick.getPOV() == 90) {
+    if (RobotContainer.joystick2.getPOV() == 90 || color == wantedColour) {
       // if joystick dpad is right, turn on
+      // if sensors say that the wanted color is detected, pull ball in
       motor.set(-1);
-      intake = true;
-    } else if (RobotContainer.joystick.getPOV() == 270) {
-      // if its left, turn off
+      intake = "Rotating in";
+    } else if (RobotContainer.joystick2.getPOV() == 270 || color == opposite) {
+      // if its left, turn off;
+      // if sesnors say that the wanted color is not detected, push ball away
+      motor.set(.6  );
+      intake = "Rotating out";
+    } else {
+      intake = "n/a";
       motor.set(0);
-      intake = false;
     }
     // set intake variables
-    SmartDashboard.putBoolean("Intake", intake);
+    SmartDashboard.putString("Intake", intake);
   }
+  
 }

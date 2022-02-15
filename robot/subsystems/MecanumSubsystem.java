@@ -54,7 +54,7 @@ public class MecanumSubsystem extends SubsystemBase {
 
   private static MecanumDriveOdometry currentPos;
 
-  private static AHRS gyro;
+  private static AHRS navx;
 
   private MecanumDriveKinematics kinematics;
 
@@ -96,11 +96,11 @@ public class MecanumSubsystem extends SubsystemBase {
     LBE = backLeft.getEncoder();
 
 
-    // creating gyro object
-    gyro = new AHRS(SPI.Port.kMXP, (byte) 50);
+    // creating navx object
+    navx = new AHRS(SPI.Port.kMXP, (byte) 50);
 
     // getting initial direction
-    initHeading = new Rotation2d((double) gyro.getCompassHeading());
+    initHeading = new Rotation2d((double) navx.getCompassHeading());
 
     // creating kinematics object for odometry object
     kinematics = new MecanumDriveKinematics(LFL, RFL, LBL, RBL);
@@ -126,7 +126,7 @@ public class MecanumSubsystem extends SubsystemBase {
         LBE.getVelocity());
 
     // get current angle
-    currentAngle = new Rotation2d((double) gyro.getCompassHeading());
+    currentAngle = new Rotation2d((double) navx.getRawGyroZ());
 
     // update pose
     currentPos.update(currentAngle, wheelSpeeds);

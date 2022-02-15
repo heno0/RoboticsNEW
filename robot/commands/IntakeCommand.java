@@ -40,9 +40,9 @@ public class IntakeCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (RobotContainer.joystick.getPOV() == 0) {
+    if (RobotContainer.joystick2.getPOV() == 0) {
       setSolenoid(Value.kReverse);
-    } if (RobotContainer.joystick.getPOV() == 180) {
+    } if (RobotContainer.joystick2.getPOV() == 180) {
       setSolenoid(Value.kForward);
     } 
   }
