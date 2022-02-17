@@ -17,7 +17,7 @@ import frc.robot.commands.IntakeCommand;
 public class Intake extends SubsystemBase {
   private Spark motor;
   private String wantedColour = Constants.WANTEDCOLOR;
-  private String opposite = Constants.OPPS;
+  private String opps = Constants.OPPS;
 
   private String color;
   // intake is used to check if the intake motors are moving in, out, or not moving
@@ -39,20 +39,20 @@ public class Intake extends SubsystemBase {
     // This method will be called once per scheduler run
 
     // get color from color sensor
-    //color = Sensors.determineColour();
-    color = "p";
+    color = Sensors.determineColour();
     // setting the intake
-    if (RobotContainer.joystick2.getPOV() == 90 || color == wantedColour) {
+    if (RobotContainer.joystick2.getPOV() == 90/* || color == wantedColour*/) {
       // if joystick dpad is right, turn on
       // if sensors say that the wanted color is detected, pull ball in
       motor.set(-1);
       intake = "Rotating in";
-    } else if (RobotContainer.joystick2.getPOV() == 270 || color == opposite) {
+    } else if (RobotContainer.joystick2.getPOV() == 270/* || color == opps*/) {
       // if its left, turn off;
-      // if sesnors say that the wanted color is not detected, push ball away
+      // if sensors say that the wanted color is not detected, push ball away
       motor.set(.6  );
       intake = "Rotating out";
     } else {
+      // if there is no input then turn off the motor
       intake = "n/a";
       motor.set(0);
     }

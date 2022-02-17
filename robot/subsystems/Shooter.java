@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import java.beans.IndexedPropertyChangeEvent;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -14,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.Sensors;
 
 public class Shooter extends SubsystemBase {
   private static CANSparkMax motor1;
@@ -21,7 +24,7 @@ public class Shooter extends SubsystemBase {
   private static Spark logMotor;
   //double speed = 0.5;
   double increment = 0.05;
-  double indexSpeed = 0;
+  double indexSpeed = 0.;
 
   private String color;
   private String wantedColor = Constants.WANTEDCOLOR;
@@ -31,6 +34,7 @@ public class Shooter extends SubsystemBase {
   private RelativeEncoder encoder;
   private RelativeEncoder encoder2;
 
+  private double distance;
 
   //private double rStick;
   private double pow3;
@@ -51,8 +55,8 @@ public class Shooter extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    // math calculations
-    // link:https://www.desmos.com/calculator/wm5vyubbee
+
+    distance = Sensors.getDistance();
   
     // get rpm for shooter motor
     SmartDashboard.putNumber("rpm", encoder.getVelocity());
@@ -81,7 +85,18 @@ public class Shooter extends SubsystemBase {
       if (indexSpeed >= 1.0) {
         indexSpeed = 1.0;
       }
-    } 
+    } else if (RobotContainer.joystick2.getRawButtonPressed(10)) {
+      enableIndex();
+    } else if (RobotContainer.joystick2.getRawButtonPressed(9)) {
+      disableIndex();
+    }
+    // color sensors conditions
+    if (color == wantedColor) {
+      indexSpeed = 0.5;
+    } else if (color == opps) {
+      indexSpeed = -0.5;
+    }
+    // distance sensor conditions
 
     // display number
     SmartDashboard.putNumber("Shooter Speed", pow3);
@@ -92,5 +107,11 @@ public class Shooter extends SubsystemBase {
     motor2.set(pow3);
     logMotor.set(-indexSpeed); 
       
+  }
+  public void enableIndex() {
+    indexSpeed = 0.7;
+  }
+  public void disableIndex() {
+    indexSpeed = 0;
   }
 }
