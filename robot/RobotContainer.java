@@ -70,6 +70,7 @@ public class RobotContainer {
 
     joystick = new Joystick(Constants.JOYSTICKID);
     joystick2 = new Joystick(Constants.SECONDARYJOYSTICK);
+
   }
 
   /**

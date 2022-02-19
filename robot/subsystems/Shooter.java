@@ -34,7 +34,10 @@ public class Shooter extends SubsystemBase {
   private RelativeEncoder encoder;
   private RelativeEncoder encoder2;
 
-  private double distance;
+  private boolean distance;
+  private String ifballonDor;
+
+  private boolean check;
 
   //private double rStick;
   private double pow3;
@@ -50,17 +53,37 @@ public class Shooter extends SubsystemBase {
     // encoder for seeing speeds
     encoder = motor1.getEncoder();
 
+  } 
+
+  public void distancePoop() {
+    // distance sensor conditions
+    if (distance == false) {
+      indexSpeed = 0;
+      ifballonDor = "ball detected, indexer stopped";
+    } else if (distance == true) {
+      ifballonDor = "no ball detected";
+    }
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
 
+
     distance = Sensors.getDistance();
+    color = Sensors.determineColour();
   
     // get rpm for shooter motor
     SmartDashboard.putNumber("rpm", encoder.getVelocity());
-    
+  
+    distancePoop();
+    // color sensors conditions
+    if (color == wantedColor) {
+     indexSpeed = 0.8;
+    } else if (color == opps) {
+      indexSpeed = -0.5;
+    }
+
     if (RobotContainer.joystick.getRawButtonPressed(6)) {
       // right bumper, increase log motor if right bumper pressed
       pow3 = pow3 + increment;
@@ -76,27 +99,23 @@ public class Shooter extends SubsystemBase {
     } if (RobotContainer.joystick2.getRawButtonPressed(Constants.ABUTTON)) {
       // if the a button is pressed, then decrease the indexer 
       indexSpeed = indexSpeed - increment;
-      if (indexSpeed <= 0) {
-        indexSpeed = 0;
+      if (indexSpeed <= -.4) {
+        indexSpeed = -.4;
       } 
     } else if (RobotContainer.joystick2.getRawButtonPressed(Constants.YBUTTON)) {
       // if the y button is pressed then increase the indexer
       indexSpeed = indexSpeed + increment;
       if (indexSpeed >= 1.0) {
         indexSpeed = 1.0;
-      }
-    } else if (RobotContainer.joystick2.getRawButtonPressed(10)) {
-      enableIndex();
+      } 
+      // if joystick buttons are clicked
+    } else if (RobotContainer.joystick2.getRawButtonPressed(10)) {  
+      indexSpeed = 0.7;
     } else if (RobotContainer.joystick2.getRawButtonPressed(9)) {
-      disableIndex();
-    }
-    // color sensors conditions
-    if (color == wantedColor) {
-      indexSpeed = 0.5;
-    } else if (color == opps) {
-      indexSpeed = -0.5;
-    }
-    // distance sensor conditions
+      indexSpeed = 0;
+    } 
+
+  
 
     // display number
     SmartDashboard.putNumber("Shooter Speed", pow3);
@@ -106,12 +125,5 @@ public class Shooter extends SubsystemBase {
     motor1.set(-pow3); 
     motor2.set(pow3);
     logMotor.set(-indexSpeed); 
-      
-  }
-  public void enableIndex() {
-    indexSpeed = 0.7;
-  }
-  public void disableIndex() {
-    indexSpeed = 0;
   }
 }

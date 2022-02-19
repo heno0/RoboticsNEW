@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 
 public class Limelight extends SubsystemBase {
   // table
@@ -20,15 +21,17 @@ public class Limelight extends SubsystemBase {
 
   private double xOffset;
   private double yOffset;
-  private double area;
+  private static double area;
 
 
   // drive values
   private double adjustX;
   private double adjustRotation;
   
-  private double horizontal;
-  private double vertical;
+  private static double horizontal;
+  private static double vertical;
+
+  private Joystick joystick;
 
   /** Creates a new Limelight. */
   public Limelight() {
@@ -37,7 +40,15 @@ public class Limelight extends SubsystemBase {
     
     adjustRotation = 0;
     adjustX = 0;
+
+    joystick = RobotContainer.joystick;
     
+  }
+  public void enableLimelight() {
+    table.getEntry("ledMode").setNumber(3);
+  }
+  public void disableLimelight() {
+    table.getEntry("ledMode").setNumber(1);
   }
 
   @Override
@@ -54,14 +65,36 @@ public class Limelight extends SubsystemBase {
     horizontal = table.getEntry("thor").getDouble(0.0);
     vertical = table.getEntry("tvert").getDouble(0.0);
 
+    ifTarget = table.getEntry("tv").getBoolean(false);
+
     SmartDashboard.putNumber("vertical", vertical);
     SmartDashboard.putNumber("horizontal", horizontal);
     SmartDashboard.putNumber("x offset", xOffset);
     SmartDashboard.putNumber("y offset", yOffset);
+    SmartDashboard.putBoolean("if target", ifTarget);
     
-   
+    
+    /*
+    if (joystick.getRawButtonPressed(Constants.ABUTTON) == true) {
+      limelightCenter();
+    } else if (joystick.getRawButtonPressed(Constants.ABUTTON) == false) {
+      disableLimelight();
+    } **/
 
     MecanumSubsystem.setSpeeds(0, adjustX, adjustRotation, .1);
   }
 
+  public void limelightCenter() {
+    enableLimelight();
+    if (ifTarget) {
+      // https://www.desmos.com/calculator/jmnqcraj3g
+      adjustRotation = xOffset*0.05;
+    } else if (ifTarget == false) {
+      adjustRotation = 0;
+    }
+  }
+  public static double getTargetArea() {
+    area = horizontal * vertical;
+    return area;
+  }
 }

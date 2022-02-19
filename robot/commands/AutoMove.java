@@ -9,6 +9,7 @@ package frc.robot.commands;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.MecanumSubsystem;
@@ -79,6 +80,10 @@ public class AutoMove extends CommandBase {
       moveX = Constants.maxmin(moveX, 1);
       moveY = Constants.maxmin(moveY, 1);
       moveRotation = Constants.maxmin(moveRotation, 1);
+
+      SmartDashboard.putNumber("move x", moveX);
+      SmartDashboard.putNumber("move y", moveY);
+      SmartDashboard.putNumber("move rotation", moveRotation);
 
       MecanumSubsystem.setSpeeds(moveX, moveY, moveRotation, 0.1);
     }    

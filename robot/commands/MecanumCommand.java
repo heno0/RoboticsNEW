@@ -45,12 +45,13 @@ public class MecanumCommand extends CommandBase {
   public void execute() {
 
     // getting input values
-    stickX =-1 *  RobotContainer.joystick.getRawAxis(Constants.LEFTSTICKX);
-    stickY = RobotContainer.joystick.getRawAxis(Constants.LEFTSTICKY);
+    stickX =-1 *  RobotContainer.joystick.getRawAxis(Constants.RIGHTSTICKX);
+    stickY = RobotContainer.joystick.getRawAxis(Constants.RIGHTSTICKY);
     
     // idfk (thanks damian)
     rotation = (RobotContainer.joystick.getRawAxis(Constants.RT) - RobotContainer.joystick.getRawAxis(Constants.LT));
     
+
     // setting the speeds
     MecanumSubsystem.setSpeeds(stickX, stickY, rotation, 0.25);
   }

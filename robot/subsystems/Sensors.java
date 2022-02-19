@@ -1,6 +1,8 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.DigitalInput;
+
 import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.wpilibj.I2C;
@@ -14,35 +16,35 @@ public class Sensors extends SubsystemBase {
   private static double red;
   private static double green;
   private ColorSensorV3 colorSensor;
-  public final static int threshold = 500;
-  private AnalogInput distanceSensor;
-  private int rawD;
-  private static double refinedD;
+  public final static int threshold = 1000;
+  private DigitalInput distanceSensor;
+  private boolean rawD;
+  private static boolean refinedD;
+
 
 
   private static String color;
 
  
   //                                          R,   G,    B
-  private static final int[] blueValues = {600, 1800, 1800};
-  private static final int[] redValues = {1400, 1000, 400};
+  private static final int[] blueValues = {3000, 7000, 10600};
+  private static final int[] redValues = {10000, 6000, 2000};
  
   public Sensors() { 
-    distanceSensor = new AnalogInput(0);
+    distanceSensor = new DigitalInput(0);
     colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
     color = "";
   }
 
   @Override
   public void periodic() {
-    rawD = distanceSensor.getValue();
+    rawD = distanceSensor.get();
     // converts raw distance to CM 
-    refinedD = rawD * 0.125;
+    refinedD = rawD;
 
     blue = colorSensor.getBlue();
     red = colorSensor.getRed();
     green = colorSensor.getGreen();
-    SmartDashboard.putNumber("distance shooter", refinedD);
   }
  
   public static String determineColour() {
@@ -57,16 +59,18 @@ public class Sensors extends SubsystemBase {
       color = "other";
     }
 
-    SmartDashboard.putNumber("red distanceSensor", red);
-    SmartDashboard.putNumber("green distanceSensor", green);
-    SmartDashboard.putNumber("blue distanceSensor", blue);
+    SmartDashboard.putNumber("red", red);
+    SmartDashboard.putNumber("green", green);
+    SmartDashboard.putNumber("blue", blue);
 
     SmartDashboard.putString("color detected", color);
+    
+    SmartDashboard.putBoolean("distance", refinedD);
     return color;
     
   }
  
-  public static double getDistance() {
+  public static boolean getDistance() {
     return refinedD;
   }
 

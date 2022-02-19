@@ -126,7 +126,7 @@ public class MecanumSubsystem extends SubsystemBase {
         LBE.getVelocity());
 
     // get current angle
-    currentAngle = new Rotation2d((double) navx.getRawGyroZ());
+    currentAngle = new Rotation2d((double) navx.getYaw());
 
     // update pose
     currentPos.update(currentAngle, wheelSpeeds);
@@ -159,7 +159,6 @@ public class MecanumSubsystem extends SubsystemBase {
     // left
     frontLeftPower = stickY + stickX + rotation;
     backLeftPower = stickY - stickX + rotation;
-
     // setting motor speeds
     // right
     frontRight.set(frontRightPower);
