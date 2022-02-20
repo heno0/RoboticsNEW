@@ -45,11 +45,11 @@ public class Intake extends SubsystemBase {
     // get color from color sensor
     color = Sensors.determineColour();
     // setting the intake
-    if (RobotContainer.joystick2.getPOV() == 90 || color == wantedColour) {
+    if (RobotContainer.joystick2.getPOV() == 90) {
       // if joystick dpad is right, turn on
       // if sensors say that the wanted color is detected, pull ball in
       speed = -1;
-    } else if (RobotContainer.joystick2.getPOV() == 270 || color == opps) {
+    } else if (RobotContainer.joystick2.getPOV() == 270) {
       // if its left, turn off;
       // if sensors say that the wanted color is not detected, push ball away
       speed = .75;

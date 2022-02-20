@@ -12,11 +12,15 @@ import edu.wpi.first.math.kinematics.MecanumDriveOdometry;
 import edu.wpi.first.math.kinematics.MecanumDriveWheelSpeeds;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
+import frc.robot.commands.LimelightRotate;
 import frc.robot.commands.MecanumCommand;
 
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -68,6 +72,8 @@ public class MecanumSubsystem extends SubsystemBase {
   private Pose2d initPos2d;
   private Rotation2d initHeading;
 
+
+
   /** Creates a new MecanumSubsystem. */
   public MecanumSubsystem() {
 
@@ -112,12 +118,20 @@ public class MecanumSubsystem extends SubsystemBase {
     currentPos = new MecanumDriveOdometry(kinematics, initHeading, initPos2d);
 
     // setting default command
-    setDefaultCommand(new MecanumCommand(this));
+    //setDefaultCommand(new MecanumCommand(this));
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    if (RobotContainer.joystick.getRawButton(Constants.ABUTTON)) {
+      Limelight.enableLimelight(); 
+      new LimelightRotate(this).schedule();
+    }
+    else if (RobotContainer.joystick.getRawButton(Constants.ABUTTON) == false) {
+      Limelight.disableLimelight();
+      new MecanumCommand(this).schedule();
+    }
   }
 
   public static void updateOdometry() {
@@ -150,6 +164,9 @@ public class MecanumSubsystem extends SubsystemBase {
 
 
 
+    SmartDashboard.putNumber("rotation", rotation);
+    SmartDashboard.putNumber("stick X", stickX);
+    SmartDashboard.putNumber("stick y", stickY);
 
     // math (thanks damian)
     // right

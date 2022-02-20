@@ -3,6 +3,9 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 
+import java.security.DigestInputStream;
+
+import com.fasterxml.jackson.databind.deser.std.NumberDeserializers.ShortDeserializer;
 import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.wpilibj.I2C;
@@ -17,11 +20,12 @@ public class Sensors extends SubsystemBase {
   private static double green;
   private ColorSensorV3 colorSensor;
   public final static int threshold = 1000;
-  private DigitalInput distanceSensor;
-  private boolean rawD;
-  private static boolean refinedD;
+  private static DigitalInput distanceSensor;
+  private static DigitalInput distanceSensorFar;
+  private static boolean shortDistance;
+  private static boolean longDistance;
 
-
+  private static boolean distanceBOO = false;
 
   private static String color;
 
@@ -31,20 +35,20 @@ public class Sensors extends SubsystemBase {
   private static final int[] redValues = {10000, 6000, 2000};
  
   public Sensors() { 
-    distanceSensor = new DigitalInput(0);
+    distanceSensor = new DigitalInput(1);
+    distanceSensorFar = new DigitalInput(0);
+
     colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
     color = "";
   }
 
   @Override
   public void periodic() {
-    rawD = distanceSensor.get();
-    // converts raw distance to CM 
-    refinedD = rawD;
 
     blue = colorSensor.getBlue();
     red = colorSensor.getRed();
     green = colorSensor.getGreen();
+    getDistanceLong(); getDistanceNear();
   }
  
   public static String determineColour() {
@@ -65,13 +69,20 @@ public class Sensors extends SubsystemBase {
 
     SmartDashboard.putString("color detected", color);
     
-    SmartDashboard.putBoolean("distance", refinedD);
+
     return color;
     
   }
  
-  public static boolean getDistance() {
-    return refinedD;
+  public static boolean getDistanceNear() {
+    shortDistance = distanceSensor.get();
+    SmartDashboard.putBoolean("distance short", shortDistance);
+    return shortDistance;
+  }
+  public static boolean getDistanceLong() {
+    longDistance = distanceSensorFar.get();
+    SmartDashboard.putBoolean("distance long", longDistance);
+    return longDistance;
   }
 
   private static boolean threshold(double value1, double value2, double _threshold) {

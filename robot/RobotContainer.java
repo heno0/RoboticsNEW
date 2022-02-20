@@ -14,6 +14,7 @@ import frc.robot.commands.AutoPlan;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.MecanumCommand;
 import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.MecanumSubsystem;
@@ -39,6 +40,8 @@ public class RobotContainer {
 
   //AT
   private Climber climber;
+
+  private Indexer indexer;
 
   public static Joystick joystick;
   public static Joystick joystick2;
@@ -67,6 +70,8 @@ public class RobotContainer {
 
     //Climber  AT
     climber = new Climber();
+
+    indexer = new Indexer();
 
     joystick = new Joystick(Constants.JOYSTICKID);
     joystick2 = new Joystick(Constants.SECONDARYJOYSTICK);

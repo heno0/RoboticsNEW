@@ -3,6 +3,9 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
+import org.opencv.core.Mat;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
@@ -45,15 +48,27 @@ public class MecanumCommand extends CommandBase {
   public void execute() {
 
     // getting input values
-    stickX =-1 *  RobotContainer.joystick.getRawAxis(Constants.RIGHTSTICKX);
-    stickY = RobotContainer.joystick.getRawAxis(Constants.RIGHTSTICKY);
+    stickX =-1 *  RobotContainer.joystick.getRawAxis(Constants.LEFTSTICKX);
+    stickY = RobotContainer.joystick.getRawAxis(Constants.LEFTSTICKY);
     
-    // idfk (thanks damian)
-    rotation = (RobotContainer.joystick.getRawAxis(Constants.RT) - RobotContainer.joystick.getRawAxis(Constants.LT));
-    
+    // rotation
+    rotation = (RobotContainer.joystick.getRawAxis(Constants.RIGHTSTICKX));
 
-    // setting the speeds
-    MecanumSubsystem.setSpeeds(stickX, stickY, rotation, 0.25);
+    stickX = 0.888*(stickX-0.1)+0.2;
+    stickY = 0.888*(stickY-0.1)+0.2;
+
+    if (rotation >= 0){
+      rotation = Math.pow((rotation-0.1),2) + 0.2;
+    } else {
+      rotation = -1*Math.pow((rotation+0.1), 2) - 0.2;
+    }
+
+    if (Math.abs(rotation) > 0 || Math.abs(stickX) > 0 || Math.abs(stickY) > 0) {
+      // setting the speeds
+
+
+      MecanumSubsystem.setSpeeds(stickX, stickY, rotation, 0.25);
+    }
   }
 
   // Called once the command ends or is interrupted.

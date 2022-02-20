@@ -14,7 +14,7 @@ import frc.robot.RobotContainer;
 
 public class Limelight extends SubsystemBase {
   // table
-  private NetworkTable table;
+  private static NetworkTable table;
 
   // other values from table
   private boolean ifTarget;
@@ -27,11 +27,14 @@ public class Limelight extends SubsystemBase {
   // drive values
   private double adjustX;
   private double adjustRotation;
+
+  private double threshold;
   
   private static double horizontal;
   private static double vertical;
 
-  private Joystick joystick;
+  private static int poo;
+
 
   /** Creates a new Limelight. */
   public Limelight() {
@@ -40,14 +43,15 @@ public class Limelight extends SubsystemBase {
     
     adjustRotation = 0;
     adjustX = 0;
+    threshold = 3;
 
-    joystick = RobotContainer.joystick;
+
     
   }
-  public void enableLimelight() {
+  public static void enableLimelight() {
     table.getEntry("ledMode").setNumber(3);
   }
-  public void disableLimelight() {
+  public static void disableLimelight() {
     table.getEntry("ledMode").setNumber(1);
   }
 
@@ -74,23 +78,33 @@ public class Limelight extends SubsystemBase {
     SmartDashboard.putBoolean("if target", ifTarget);
     
     
-    /*
-    if (joystick.getRawButtonPressed(Constants.ABUTTON) == true) {
-      limelightCenter();
-    } else if (joystick.getRawButtonPressed(Constants.ABUTTON) == false) {
-      disableLimelight();
-    } **/
-
-    MecanumSubsystem.setSpeeds(0, adjustX, adjustRotation, .1);
+    
+    
+    //MecanumSubsystem.setSpeeds(0, adjustX, adjustRotation, .1);
   }
 
+
+
+  public static double getTX(){
+    return table.getEntry("tx").getDouble(0);
+  }
   public void limelightCenter() {
     enableLimelight();
-    if (ifTarget) {
+    if (Math.abs(xOffset) > threshold) {
       // https://www.desmos.com/calculator/jmnqcraj3g
-      adjustRotation = xOffset*0.05;
-    } else if (ifTarget == false) {
+      adjustRotation = xOffset*0.005;
+      if (adjustRotation > 1) {
+        adjustRotation = 1;
+      }
+      if (adjustRotation < -1) {
+        adjustRotation = -1;
+      }
+      SmartDashboard.putNumber("limelight rotation", adjustRotation);
+      //MecanumSubsystem.setSpeeds(0, 0, adjustRotation, .1);
+      
+    } else {
       adjustRotation = 0;
+      MecanumSubsystem.setSpeeds(0, 0, 0, .1);
     }
   }
   public static double getTargetArea() {
