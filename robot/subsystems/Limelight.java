@@ -35,6 +35,9 @@ public class Limelight extends SubsystemBase {
 
   private static int poo;
 
+  private static double shooterArea;
+  private static double shooterSpeed;
+
 
   /** Creates a new Limelight. */
   public Limelight() {
@@ -111,4 +114,5 @@ public class Limelight extends SubsystemBase {
     area = horizontal * vertical;
     return area;
   }
+
 }

@@ -95,6 +95,7 @@ public class Indexer extends SubsystemBase {
     } else if (color == opps) {
         colorCheck = false;
     }
+    // if color is the wanted color, return true, but if it isnt, return false
     return colorCheck;
   }
 

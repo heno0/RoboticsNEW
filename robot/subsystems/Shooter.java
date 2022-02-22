@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.commands.LimelightShooter;
 
 public class Shooter extends SubsystemBase {
   private static CANSparkMax motor1;
@@ -49,24 +50,24 @@ public class Shooter extends SubsystemBase {
     // This method will be called once per scheduler run
     if (RobotContainer.joystick2.getRawButtonPressed(7)) {
       shootShootShootShoot();
-    }
-    else if (RobotContainer.joystick2.getRawButtonPressed(8)) {
+    } else if (RobotContainer.joystick2.getRawButton(8)) {
       resetShooter();
+    } else if (RobotContainer.joystick2.getRawButton(Constants.BBUTTON)) {
+      Limelight.enableLimelight();
+      new LimelightShooter(this).schedule();
+    } else {
+      intermittentShooterIncrease();
     }
 
     // get rpm for shooter motor
     SmartDashboard.putNumber("rpm", encoder.getVelocity());
   
 
-
-    intermittentShooterIncrease();
     
     // display number
     SmartDashboard.putNumber("Shooter Speed", pow3);
 
-    //setting motors
-    motor1.set(-pow3); 
-    motor2.set(pow3);
+    
   }
   
   private void intermittentShooterIncrease() {
@@ -84,14 +85,24 @@ public class Shooter extends SubsystemBase {
           pow3 = 0;
       }
     }
+    //setting motors
+    setShooterSpeeds(pow3);
   }
 
   private void shootShootShootShoot() {
     pow3 = .9;
     Indexer.resetState();
+    //setting motors
+    setShooterSpeeds(pow3);
   }
   public static void resetShooter() {
     pow3 = 0;
+    //setting motors
+    setShooterSpeeds(pow3);
+  }
+  public static void setShooterSpeeds(double speed) {
+    motor1.set(-speed);
+    motor2.set(speed);
   }
 
 }
