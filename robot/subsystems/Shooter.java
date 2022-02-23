@@ -72,9 +72,7 @@ public class Shooter extends SubsystemBase {
   // sposed to be incremental shooter increase
   private void intermittentShooterIncrease() {
     pow3 = RobotContainer.joystick2.getRawAxis(Constants.RT) - RobotContainer.joystick2.getRawAxis(Constants.LT);
-    if (pow3 == 0) {
-      Indexer.resetState();
-    }
+ 
 
     //setting motors
     setShooterSpeeds(pow3);
@@ -83,6 +81,7 @@ public class Shooter extends SubsystemBase {
 
   // set shooter speeds
   public static void setShooterSpeeds(double speed) {
+
     motor1.set(-speed);
     motor2.set(speed);
   }

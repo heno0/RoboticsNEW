@@ -11,23 +11,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.commands.AutoIndex;
 
 public class Indexer extends SubsystemBase {
   private double indexSpeed = 0;
   private double increment = 0.1;
-  private Spark logMotor;
+  private static Spark logMotor;
 
-  private boolean isBallS;
-  private boolean check;
-
-  private String color;
-  private String wantedColor = Constants.WANTEDCOLOR;
-  private String opps = Constants.OPPS;
 
   private static int indexState = 0;
-
-  private boolean colorCheck;
-  private boolean colorCheckComplete = false;
 
   private boolean flag = false;
 
@@ -43,34 +35,9 @@ public class Indexer extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     
-    color = Sensors.determineColour();
     
     intermittentIndexerIncrease();
-    
-    if (indexState == 0) {
-      if (colorSensorCheck()) {
-        enableIndexer(0.7);
-        colorCheckComplete = true;
-      }
-      if ((Sensors.getDistanceNear() == false || Sensors.getDistanceLong() ==  false) && (colorCheckComplete)) {
-        enableIndexer(0);
-        indexState = 1;
-        colorCheckComplete = false;
-      }
-    } 
-    if (indexState == 1) {
-      if (colorSensorCheck()) {
-        enableIndexer(0.7);
-        colorCheckComplete = true;
-      }
-      if (Sensors.getDistanceLong() == false && colorCheckComplete) {
-        enableIndexer(0);
-        indexState = 2;
-        colorCheckComplete = false;
-      }
-    } 
-    SmartDashboard.putNumber("INDEX state", indexState);
-    SmartDashboard.putNumber("Index Speed", indexSpeed); 
+    setDefaultCommand(new AutoIndex(this));
   }
   
   private void intermittentIndexerIncrease() {
@@ -89,18 +56,7 @@ public class Indexer extends SubsystemBase {
 
 
 
-  public boolean colorSensorCheck() {
-    // color sensors conditions
-    if (color == wantedColor) {
-        colorCheck = true;
-    } else if (color == opps) {
-        colorCheck = false;
-    }
-    // if color is the wanted color, return true, but if it isnt, return false
-    return colorCheck;
-  }
-
-  private void enableIndexer(double speed) {
+  public static void enableIndexer(double speed) {
     SmartDashboard.putNumber("INDEX enable Speed", speed);
     logMotor.set(-speed);
   }

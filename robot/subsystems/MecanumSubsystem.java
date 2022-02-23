@@ -142,7 +142,7 @@ public class MecanumSubsystem extends SubsystemBase {
         EncoderMs(RBE));
 
     // get current angle
-    currentAngle = new Rotation2d((double) navx.getYaw());
+    currentAngle = new Rotation2d((double) navx.getRoll());
 
     // update pose
     currentPos.update(currentAngle, wheelSpeeds);

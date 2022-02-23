@@ -17,20 +17,18 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
-import frc.robot.commands.IntakeCommand;
 
 public class Intake extends SubsystemBase {
-  private Spark motor;
-  private String wantedColour = Constants.WANTEDCOLOR;
-  private String opps = Constants.OPPS;
+  private static Spark motor;
 
-  private String color;
   // intake is used to check if the intake motors are moving in, out, or not moving
   private String intake;
 
   private double speed;
 
   private DoubleSolenoid climberSolenoid;
+
+  static boolean check = true;
   //double intakeSpeed = 0.0;
   /** Creates a new Intake. */
   public Intake() {
@@ -40,8 +38,6 @@ public class Intake extends SubsystemBase {
     // set climbing solenoid
     climberSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 3);
 
-    // set command for the intake command
-    setDefaultCommand(new IntakeCommand(this));
 
   }
 
@@ -49,8 +45,7 @@ public class Intake extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
-    // get color from color sensor
-    color = Sensors.determineColour();
+    
     // setting the intake
     if (RobotContainer.joystick2.getRawButtonPressed(Constants.BBUTTON)) {
       // if joystick dpad is right, turn on
@@ -76,10 +71,17 @@ public class Intake extends SubsystemBase {
     }
 
 
-
-
-    motor.set(speed);
+    setIntake(speed);
     // set intake variables
     SmartDashboard.putString("Intake", intake);
+  }
+  public static void setIntake(double speed) {
+    if (check) {
+      motor.set(speed);
+    }
+  }
+
+  public static void setCheck(boolean boo) {
+    check = boo;
   }
 }
