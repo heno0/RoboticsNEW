@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxRelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 // IF  REV  IMPORTS FAIL AT ANY TIME!!!!!!
 // click WPILib button, click manage vendor libraries, click install new libraries online
@@ -72,6 +73,9 @@ public class MecanumSubsystem extends SubsystemBase {
   private Pose2d initPos2d;
   private Rotation2d initHeading;
 
+  private static double revs;
+  private static double pwm;
+
 
 
   /** Creates a new MecanumSubsystem. */
@@ -117,8 +121,6 @@ public class MecanumSubsystem extends SubsystemBase {
     initialPos = new MecanumDriveOdometry(kinematics, initHeading, initPos2d);
     currentPos = new MecanumDriveOdometry(kinematics, initHeading, initPos2d);
 
-    // setting default command
-    //setDefaultCommand(new MecanumCommand(this));
   }
 
   @Override
@@ -136,8 +138,8 @@ public class MecanumSubsystem extends SubsystemBase {
 
   public static void updateOdometry() {
     // get current wheel speeds
-    wheelSpeeds = new MecanumDriveWheelSpeeds(RFE.getVelocity(), RBE.getVelocity(), LFE.getVelocity(),
-        LBE.getVelocity());
+    wheelSpeeds = new MecanumDriveWheelSpeeds(EncoderMs(LFE), EncoderMs(RFE), EncoderMs(LBE),
+        EncoderMs(RBE));
 
     // get current angle
     currentAngle = new Rotation2d((double) navx.getYaw());
@@ -184,5 +186,11 @@ public class MecanumSubsystem extends SubsystemBase {
     // left
     frontLeft.set(frontLeftPower);
     backLeft.set(backLeftPower);
+  }
+  
+  public static double EncoderMs(RelativeEncoder encoder) {
+    pwm = encoder.getVelocity();
+    revs = encoder.getCountsPerRevolution();
+    return pwm / revs * 6 * 0.0254 / 50;
   }
 }

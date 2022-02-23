@@ -4,14 +4,20 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.CameraServerCvJNI;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.AutoMove;
 import frc.robot.commands.AutoPlan;
-import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.MecanumCommand;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Indexer;
@@ -34,9 +40,10 @@ public class RobotContainer {
   private AutoMove autoMove;
   private Limelight limelight;
   private Intake intake;
-  private IntakeCommand intakeCommand;
   private Shooter shooter;
   private Sensors sensors;
+  private Compressor compressor;
+
 
   //AT
   private Climber climber;
@@ -45,7 +52,6 @@ public class RobotContainer {
 
   public static Joystick joystick;
   public static Joystick joystick2;
-  
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
@@ -66,7 +72,6 @@ public class RobotContainer {
 
     //intake
     intake = new Intake();
-    intakeCommand = new IntakeCommand(intake);
 
     //Climber  AT
     climber = new Climber();
@@ -75,6 +80,11 @@ public class RobotContainer {
 
     joystick = new Joystick(Constants.JOYSTICKID);
     joystick2 = new Joystick(Constants.SECONDARYJOYSTICK);
+
+    compressor = new Compressor(0, PneumaticsModuleType.CTREPCM);
+    compressor.enableDigital();
+
+
 
   }
 

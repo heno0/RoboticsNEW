@@ -48,14 +48,13 @@ public class Shooter extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    if (RobotContainer.joystick2.getRawButtonPressed(7)) {
-      shootShootShootShoot();
-    } else if (RobotContainer.joystick2.getRawButton(8)) {
-      resetShooter();
-    } else if (RobotContainer.joystick2.getRawButton(Constants.BBUTTON)) {
+    // if b button is pressed on driver controller then automatically set controller speed
+    if (RobotContainer.joystick2.getRawButton(Constants.ABUTTON)) {
       Limelight.enableLimelight();
       new LimelightShooter(this).schedule();
-    } else {
+    }
+    // at any other time, then turn on intremental increase
+    else {
       intermittentShooterIncrease();
     }
 
@@ -70,36 +69,19 @@ public class Shooter extends SubsystemBase {
     
   }
   
+  // sposed to be incremental shooter increase
   private void intermittentShooterIncrease() {
-
-    if (RobotContainer.joystick.getRawButtonPressed(6)) {
-      // right bumper, increase log motor if right bumper pressed
-      pow3 = pow3 + increment;
-      if (pow3 >=1.0){
-          pow3 = 1.0;
-      }
-    } else if (RobotContainer.joystick2.getRawButtonPressed(5)) {
-      // if left bumper is pressed decrease log motor
-      pow3 = pow3 - increment;
-      if (pow3 <= 0){
-          pow3 = 0;
-      }
+    pow3 = RobotContainer.joystick2.getRawAxis(Constants.RT) - RobotContainer.joystick2.getRawAxis(Constants.LT);
+    if (pow3 == 0) {
+      Indexer.resetState();
     }
+
     //setting motors
     setShooterSpeeds(pow3);
   }
 
-  private void shootShootShootShoot() {
-    pow3 = .9;
-    Indexer.resetState();
-    //setting motors
-    setShooterSpeeds(pow3);
-  }
-  public static void resetShooter() {
-    pow3 = 0;
-    //setting motors
-    setShooterSpeeds(pow3);
-  }
+
+  // set shooter speeds
   public static void setShooterSpeeds(double speed) {
     motor1.set(-speed);
     motor2.set(speed);

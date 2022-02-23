@@ -50,13 +50,12 @@ public class LimelightRotate extends CommandBase {
       if (adjustRotation > 1) {
         adjustRotation = 1;
       }
-      if (adjustRotation < -1) {
+      else if (adjustRotation < -1) {
         adjustRotation = -1;
       }
       SmartDashboard.putNumber("limelight rotation", adjustRotation);
       
-      MecanumSubsystem.setSpeeds(0, 0, adjustRotation, .04);
-      
+      MecanumSubsystem.setSpeeds(0, 0, adjustRotation, .036);
     } else {
       adjustRotation = 0;
       MecanumSubsystem.setSpeeds(0, 0, adjustRotation, .1);

@@ -4,7 +4,13 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -18,6 +24,16 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+  
+  public static Joystick joystick2;
+
+  public UsbCamera frontCamera;
+  public UsbCamera climbingCamera;
+
+  public NetworkTableEntry table;
+
+  public String cameraType = "";
+  
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -28,6 +44,16 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    
+    frontCamera = CameraServer.startAutomaticCapture(0);
+    climbingCamera = CameraServer.startAutomaticCapture(1);
+
+    table = NetworkTableInstance.getDefault().getTable("").getEntry("CameraSelection");
+
+    frontCamera.setResolution(640, 480);
+    climbingCamera.setResolution(640, 480);
+
+    joystick2 = new Joystick(Constants.SECONDARYJOYSTICK);
   }
 
   /**
@@ -77,11 +103,22 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
   }
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    if (joystick2.getRawButton(8)) {
+      cameraType = "Climbing Camera";
+      table.setString(climbingCamera.getName());
+    }
+    else {
+      cameraType = "Front Camera";
+      table.setString(frontCamera.getName());
+    }
+    SmartDashboard.putString("Camera Selected", cameraType);
+  }
 
   @Override
   public void testInit() {

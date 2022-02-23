@@ -28,10 +28,8 @@ public class Climber extends SubsystemBase {
     
     if (RobotContainer.joystick2.getRawButton(Constants.BBUTTON) == true) {
       // if you press the b button, then go up
-      setClimber(Value.kForward);
-    } else {
-      // any other time, go down
-      setClimber(Value.kReverse);
+      sol1.toggle();
+    
     }
   }
   public void setClimber(Value value) {

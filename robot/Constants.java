@@ -40,6 +40,9 @@ public final class Constants {
     public static final double DEADZONES = 0.15;
     public static final double DEADZONER = 0.2;
 
+    public static final int RBUMPER = 6;
+    public static final int LBUMPER = 5;
+
     // PNUEMATICS + SOLENOIDS
     public static final int COMPRESSORID = 0;
     public static final int RIGHTSWITCH = 0;

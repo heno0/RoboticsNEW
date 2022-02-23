@@ -27,6 +27,7 @@ public class Indexer extends SubsystemBase {
   private static int indexState = 0;
 
   private boolean colorCheck;
+  private boolean colorCheckComplete = false;
 
   private boolean flag = false;
 
@@ -45,44 +46,44 @@ public class Indexer extends SubsystemBase {
     color = Sensors.determineColour();
     
     intermittentIndexerIncrease();
-    /*
+    
     if (indexState == 0) {
       if (colorSensorCheck()) {
         enableIndexer(0.7);
-
+        colorCheckComplete = true;
       }
-      if (Sensors.getDistanceNear() == false || Sensors.getDistanceLong() ==  false) {
+      if ((Sensors.getDistanceNear() == false || Sensors.getDistanceLong() ==  false) && (colorCheckComplete)) {
         enableIndexer(0);
         indexState = 1;
+        colorCheckComplete = false;
       }
     } 
     if (indexState == 1) {
       if (colorSensorCheck()) {
         enableIndexer(0.7);
+        colorCheckComplete = true;
       }
-      if (Sensors.getDistanceLong() == false) {
+      if (Sensors.getDistanceLong() == false && colorCheckComplete) {
         enableIndexer(0);
-        //indexState = 2;
+        indexState = 2;
+        colorCheckComplete = false;
       }
     } 
     SmartDashboard.putNumber("INDEX state", indexState);
-    SmartDashboard.putNumber("Index Speed", indexSpeed); **/
+    SmartDashboard.putNumber("Index Speed", indexSpeed); 
   }
   
   private void intermittentIndexerIncrease() {
-    indexSpeed = RobotContainer.joystick2.getRawAxis(Constants.LT) - RobotContainer.joystick2.getRawAxis(Constants.RT);
+    indexSpeed = RobotContainer.joystick2.getRawAxis(Constants.LEFTSTICKY);
    
     if (Math.abs(indexSpeed) < 0.25){
       indexSpeed = 0;
+      resetState();
     }
-    /*
-    if ( || Constants.WANTEDCOLOR == Sensors.determineColour()) {  
-      enableIndexer(0.7);
-    } else if (RobotContainer.joystick2.getRawButtonPressed(9)) {
-      enableIndexer(0);
-    } else if (Constants.OPPS == Sensors.determineColour()) {
-      enableIndexer(-0.7);
-    }**/
+    if (RobotContainer.joystick2.getRawButton(Constants.RBUMPER)) {
+      indexSpeed = 0.8;
+      resetState();
+    }
     enableIndexer(-indexSpeed);
   }
 

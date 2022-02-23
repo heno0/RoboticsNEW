@@ -5,8 +5,11 @@
 package frc.robot.subsystems;
 
 import java.lang.module.ModuleReader;
+import java.util.function.DoubleBinaryOperator;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
@@ -26,12 +29,16 @@ public class Intake extends SubsystemBase {
   private String intake;
 
   private double speed;
+
+  private DoubleSolenoid climberSolenoid;
   //double intakeSpeed = 0.0;
   /** Creates a new Intake. */
   public Intake() {
     // set motor
     motor = new Spark(0);
 
+    // set climbing solenoid
+    climberSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 3);
 
     // set command for the intake command
     setDefaultCommand(new IntakeCommand(this));
@@ -45,11 +52,11 @@ public class Intake extends SubsystemBase {
     // get color from color sensor
     color = Sensors.determineColour();
     // setting the intake
-    if (RobotContainer.joystick2.getPOV() == 90) {
+    if (RobotContainer.joystick2.getRawButtonPressed(Constants.BBUTTON)) {
       // if joystick dpad is right, turn on
       // if sensors say that the wanted color is detected, pull ball in
       speed = -1;
-    } else if (RobotContainer.joystick2.getPOV() == 270) {
+    } else if (RobotContainer.joystick2.getRawButtonPressed(Constants.XBUTTON)) {
       // if its left, turn off;
       // if sensors say that the wanted color is not detected, push ball away
       speed = .75;
@@ -63,9 +70,16 @@ public class Intake extends SubsystemBase {
     } else if (speed < 0) {
       intake = "rotating in";
     }
+
+    if (RobotContainer.joystick2.getRawButtonPressed(Constants.YBUTTON)) {
+      climberSolenoid.toggle();
+    }
+
+
+
+
     motor.set(speed);
     // set intake variables
     SmartDashboard.putString("Intake", intake);
   }
-  
 }

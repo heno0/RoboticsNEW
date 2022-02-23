@@ -32,6 +32,8 @@ public class AutoMove extends CommandBase {
   private double moveY;
   private double moveRotation;
 
+  private double encoderMS;
+
 
   /** Creates a new AutoMove. */
   public AutoMove(final double x, final double y, final Rotation2d rotation) {
@@ -88,6 +90,7 @@ public class AutoMove extends CommandBase {
       MecanumSubsystem.setSpeeds(moveX, moveY, moveRotation, 0.1);
     }    
   }
+
 
   // Called once the command ends or is interrupted.
   @Override
