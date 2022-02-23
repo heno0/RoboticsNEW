@@ -73,6 +73,18 @@ public class Sensors extends SubsystemBase {
     return color;
     
   }
+
+  public static DriverStation.Alliance determineFMSColor() {
+    if (threshold(blue, blueValues[2], threshold) && threshold(red, blueValues[0], threshold)) {
+      color = DriverStation.Alliance.Blue;
+    }
+    // Check red
+    else if (threshold(blue, redValues[2], threshold) && threshold(red, redValues[0], threshold)) {
+      color = DriverStation.Alliance.Red;
+    } else {
+      color = DriverStation.Alliance.Invalid;
+    }
+  }
  
   public static boolean getDistanceNear() {
     shortDistance = distanceSensor.get();

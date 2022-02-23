@@ -33,6 +33,14 @@ public class Robot extends TimedRobot {
   public NetworkTableEntry table;
 
   public String cameraType = "";
+
+  public DriverStation.Alliance allianceColor;
+
+
+  SendableChooser<String> m_startingMode = new SendableChooser<>();
+  SendableChooser<String> m_autoPosition = new SendableChooser<>();
+  SendableChooser<String> m_autoRoutine = new SendableChooser<>();
+
   
 
   /**
@@ -54,6 +62,29 @@ public class Robot extends TimedRobot {
     climbingCamera.setResolution(640, 480);
 
     joystick2 = new Joystick(Constants.SECONDARYJOYSTICK);
+
+    allianceColor = DriverStation.getAlliance();
+
+
+    m_startingMode.setDefaultOption("Starting in Teleop", "teleop");
+    m_startingMode.addOption("Starting in Autonomous", "auto");
+
+    SmartDashboard.putData("Auto Starting Mode", m_startingMode);
+
+    m_autoRoutine.setDefaultOption("Single Cargo Ship ", "singleCargo");
+    m_autoRoutine.addOption("Side Cargo Ship", "sideCargo");
+    m_autoRoutine.addOption("Single Rocket", "singleRocket");
+    m_autoRoutine.addOption("Dual Rocket", "dualRocket");
+    m_autoRoutine.addOption("Dual Cargo Ship", "dualCargo");
+ 
+
+    SmartDashboard.putData("Auto Routine", m_autoRoutine);
+
+
+    m_autoPosition.setDefaultOption("Left Position", "L");
+    m_autoPosition.addOption("Right Position", "R");
+
+    SmartDashboard.putData("Auto Starting Position", m_autoPosition);
   }
 
   /**
@@ -82,7 +113,14 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
+
+    String mode = m_startingMode.getSelected();
+    String routine = m_autoRoutine.getSelected();
+    String position = m_autoPosition.getSelected();
+
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+
+
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {

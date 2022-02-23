@@ -12,7 +12,23 @@ public class AutoPlan extends SequentialCommandGroup {
   public AutoPlan() {
     // Use addRequirements() here to declare subsystem dependencies.
     addCommands(
-      new AutoMove(0, -1, new Rotation2d(90))
+      //new AutoMove(0, -1, new Rotation2d(90))
+      new IntakeCommandAuto(),
+      new ParallelRaceGroup(
+        new AutoMove(4, 0, 0),
+        new IntakeSpinAuto();
+      ),
+      new AutoMove(0,0,90),
+      new ParallelRaceGroup(
+        new LimelightRotateAuto();
+        new LimelightShooterAuto(false);
+      ),
+      new ParallelRaceGroup(
+        new DoNothing(200),
+        new IndexSpinAuto();
+      ),
+      new LimelightShooterAuto(true);
+
     );
   }
 }

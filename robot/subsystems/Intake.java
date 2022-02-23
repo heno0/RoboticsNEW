@@ -72,7 +72,7 @@ public class Intake extends SubsystemBase {
     }
 
     if (RobotContainer.joystick2.getRawButtonPressed(Constants.YBUTTON)) {
-      climberSolenoid.toggle();
+      toggleIntake();
     }
 
 
@@ -81,5 +81,18 @@ public class Intake extends SubsystemBase {
     motor.set(speed);
     // set intake variables
     SmartDashboard.putString("Intake", intake);
+  }
+
+  public void toggleIntake(){
+    climberSolenoid.toggle();
+  }
+
+  public void setIntakeSpeed(double speed){
+    if (speed > 1){
+      speed = 1;
+    } else if (speed < -1){
+      speed = -1;
+    }
+    motor.set(speed);
   }
 }
