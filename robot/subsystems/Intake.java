@@ -17,10 +17,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
-import frc.robot.commands.IntakeCommand;
 
 public class Intake extends SubsystemBase {
-  private Spark motor;
+  private static Spark motor;
   private String wantedColour = Constants.WANTEDCOLOR;
   private String opps = Constants.OPPS;
 
@@ -30,7 +29,7 @@ public class Intake extends SubsystemBase {
 
   private double speed;
 
-  private DoubleSolenoid climberSolenoid;
+  private static DoubleSolenoid climberSolenoid;
   //double intakeSpeed = 0.0;
   /** Creates a new Intake. */
   public Intake() {
@@ -41,7 +40,6 @@ public class Intake extends SubsystemBase {
     climberSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 3);
 
     // set command for the intake command
-    setDefaultCommand(new IntakeCommand(this));
 
   }
 
@@ -83,11 +81,11 @@ public class Intake extends SubsystemBase {
     SmartDashboard.putString("Intake", intake);
   }
 
-  public void toggleIntake(){
+  public static void toggleIntake(){
     climberSolenoid.toggle();
   }
 
-  public void setIntakeSpeed(double speed){
+  public static void setIntakeSpeed(double speed){
     if (speed > 1){
       speed = 1;
     } else if (speed < -1){

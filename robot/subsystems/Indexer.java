@@ -15,7 +15,7 @@ import frc.robot.RobotContainer;
 public class Indexer extends SubsystemBase {
   private double indexSpeed = 0;
   private double increment = 0.1;
-  private Spark logMotor;
+  private static Spark logMotor;
 
   private boolean isBallS;
   private boolean check;
@@ -100,7 +100,7 @@ public class Indexer extends SubsystemBase {
     return colorCheck;
   }
 
-  private void enableIndexer(double speed) {
+  public static void enableIndexer(double speed) {
     SmartDashboard.putNumber("INDEX enable Speed", speed);
     logMotor.set(-speed);
   }
