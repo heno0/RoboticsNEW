@@ -48,7 +48,6 @@ public class Sensors extends SubsystemBase {
     blue = colorSensor.getBlue();
     red = colorSensor.getRed();
     green = colorSensor.getGreen();
-    getDistanceLong(); getDistanceNear();
   }
  
   public static String determineColour() {
@@ -77,11 +76,25 @@ public class Sensors extends SubsystemBase {
   public static boolean getDistanceNear() {
     shortDistance = distanceSensor.get();
     SmartDashboard.putBoolean("distance short", shortDistance);
+    // .get() returns true if there is no ball, so these if statements make it so its true if there is a ball (easier to read/code )
+    if (shortDistance) {
+      shortDistance = false;
+    }
+    else if (shortDistance == false) {
+      shortDistance = true;
+    }
     return shortDistance;
   }
   public static boolean getDistanceLong() {
     longDistance = distanceSensorFar.get();
     SmartDashboard.putBoolean("distance long", longDistance);
+    // .get() returns true if there is no ball normally, so this flips it to make it easier
+    if (longDistance) {
+      longDistance = false;
+    }
+    else if (longDistance == false) {
+      longDistance = true;
+    }
     return longDistance;
   }
 

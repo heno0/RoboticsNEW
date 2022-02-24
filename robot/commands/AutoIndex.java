@@ -35,7 +35,6 @@ public class AutoIndex extends CommandBase {
       if (colorSensorCheck() && Sensors.getDistanceNear()) {
         indexState = 1;
         Indexer.enableIndexer(.8);
-        Intake.setCheck(true);
       }
     }
 
@@ -53,7 +52,6 @@ public class AutoIndex extends CommandBase {
         indexState = 3;
         Indexer.enableIndexer(0);
         Intake.setIntake(0);
-        Intake.setCheck(false);
       }
     }
 

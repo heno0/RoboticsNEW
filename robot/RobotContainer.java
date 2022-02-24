@@ -16,8 +16,11 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AutoMove;
 import frc.robot.commands.AutoPlan;
+import frc.robot.commands.LimelightRotate;
+import frc.robot.commands.LimelightShooter;
 import frc.robot.commands.MecanumCommand;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Indexer;
@@ -39,6 +42,7 @@ public class RobotContainer {
   private MecanumCommand mecanumCommand;
   private AutoMove autoMove;
   private Limelight limelight;
+  private LimelightRotate limelightRotate;
   private Intake intake;
   private Shooter shooter;
   private Sensors sensors;
@@ -52,6 +56,9 @@ public class RobotContainer {
 
   public static Joystick joystick;
   public static Joystick joystick2;
+
+  public JoystickButton a;
+  public JoystickButton a2;
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
@@ -81,6 +88,9 @@ public class RobotContainer {
     joystick = new Joystick(Constants.JOYSTICKID);
     joystick2 = new Joystick(Constants.SECONDARYJOYSTICK);
 
+    a = new JoystickButton(joystick, Constants.ABUTTON);
+    a2 = new JoystickButton(joystick2, Constants.ABUTTON);
+
     compressor = new Compressor(0, PneumaticsModuleType.CTREPCM);
     compressor.enableDigital();
 
@@ -94,7 +104,10 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {}
+  private void configureButtonBindings() {
+    a.whileActiveContinuous(new LimelightRotate(mecanumSubsystem));
+    a2.whileActiveContinuous(new LimelightShooter(shooter));
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

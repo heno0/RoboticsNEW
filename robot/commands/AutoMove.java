@@ -32,7 +32,6 @@ public class AutoMove extends CommandBase {
   private double moveY;
   private double moveRotation;
 
-  private double encoderMS;
 
 
   /** Creates a new AutoMove. */

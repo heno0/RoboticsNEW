@@ -26,7 +26,7 @@ public class Climber extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     
-    if (RobotContainer.joystick2.getRawButton(Constants.BBUTTON) == true) {
+    if (RobotContainer.joystick2.getRawButtonPressed(Constants.BBUTTON) == true) {
       // if you press the b button, then go up
       sol1.toggle();
     

@@ -51,7 +51,7 @@ public class Indexer extends SubsystemBase {
       indexSpeed = 0.8;
       resetState();
     }
-    enableIndexer(-indexSpeed);
+    enableIndexer(indexSpeed);
   }
 
 

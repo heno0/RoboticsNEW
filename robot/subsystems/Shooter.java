@@ -51,10 +51,11 @@ public class Shooter extends SubsystemBase {
     // if b button is pressed on driver controller then automatically set controller speed
     if (RobotContainer.joystick2.getRawButton(Constants.ABUTTON)) {
       Limelight.enableLimelight();
-      new LimelightShooter(this).schedule();
+      new LimelightShooter(this);
     }
     // at any other time, then turn on intremental increase
     else {
+      Limelight.disableLimelight();
       intermittentShooterIncrease();
     }
 
@@ -73,6 +74,18 @@ public class Shooter extends SubsystemBase {
   private void intermittentShooterIncrease() {
     pow3 = RobotContainer.joystick2.getRawAxis(Constants.RT) - RobotContainer.joystick2.getRawAxis(Constants.LT);
  
+    if (pow3 > 0) {
+      pow3 = (Math.pow(pow3, 2)) / 1.25 + .2;
+      if (pow3 < .3) {
+        pow3 = 0;
+      }
+    }
+    else if (pow3 < 0) {
+      pow3 = -((Math.pow(pow3, 2)) / 1.25) - .2;
+      if (pow3 > -.3) {
+        pow3 = 0;
+      }
+    }
 
     //setting motors
     setShooterSpeeds(pow3);

@@ -45,15 +45,11 @@ public class Intake extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
-    
+
     // setting the intake
     if (RobotContainer.joystick2.getRawButtonPressed(Constants.BBUTTON)) {
-      // if joystick dpad is right, turn on
-      // if sensors say that the wanted color is detected, pull ball in
       speed = -1;
     } else if (RobotContainer.joystick2.getRawButtonPressed(Constants.XBUTTON)) {
-      // if its left, turn off;
-      // if sensors say that the wanted color is not detected, push ball away
       speed = .75;
     } else {
       intake = "";
@@ -76,12 +72,8 @@ public class Intake extends SubsystemBase {
     SmartDashboard.putString("Intake", intake);
   }
   public static void setIntake(double speed) {
-    if (check) {
-      motor.set(speed);
-    }
-  }
-
-  public static void setCheck(boolean boo) {
-    check = boo;
+    
+    motor.set(speed);
+    
   }
 }
