@@ -4,15 +4,14 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -24,36 +23,28 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
-  
-  public static Joystick joystick2;
-
-  public UsbCamera frontCamera;
-  public UsbCamera climbingCamera;
-
-  public NetworkTableEntry table;
-
-  public String cameraType = "";
-  
 
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
    */
+  UsbCamera camera1;
+  UsbCamera camera2;
+  Joystick joy1 = new Joystick(0);
+  NetworkTableEntry cameraSelection;
+
   @Override
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
-    
-    frontCamera = CameraServer.startAutomaticCapture(0);
-    climbingCamera = CameraServer.startAutomaticCapture(1);
+    camera1 = CameraServer.startAutomaticCapture(0);
+    camera2 = CameraServer.startAutomaticCapture(1);
 
-    table = NetworkTableInstance.getDefault().getTable("").getEntry("CameraSelection");
+    cameraSelection = NetworkTableInstance.getDefault().getTable("").getEntry("CameraSelection");
 
-    frontCamera.setResolution(640, 480);
-    climbingCamera.setResolution(640, 480);
-
-    joystick2 = new Joystick(Constants.SECONDARYJOYSTICK);
+    camera1.setResolution(640, 480);
+    camera2.setResolution(640, 480);
   }
 
   /**
@@ -103,21 +94,20 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-
   }
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    if (joystick2.getRawButton(8)) {
-      cameraType = "Climbing Camera";
-      table.setString(climbingCamera.getName());
-    }
-    else {
-      cameraType = "Front Camera";
-      table.setString(frontCamera.getName());
-    }
-    SmartDashboard.putString("Camera Selected", cameraType);
+
+  if (joy1.getRawButtonPressed(Constants.START)) {
+    System.out.println("Setting camera 2");
+    cameraSelection.setString(camera2.getName());
+} else if (joy1.getRawButtonReleased(Constants.START)) {
+    System.out.println("Setting camera 1");
+    cameraSelection.setString(camera1.getName());
+}
+
   }
 
   @Override
