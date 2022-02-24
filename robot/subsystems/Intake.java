@@ -63,6 +63,8 @@ public class Intake extends SubsystemBase {
     }
 
     if (RobotContainer.joystick2.getRawButtonPressed(Constants.YBUTTON)) {
+      // toggles
+      // get pressed so it doesnt keep toggling
       climberSolenoid.toggle();
     }
 

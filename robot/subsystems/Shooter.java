@@ -10,11 +10,13 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.commands.IncrementalShooter;
 import frc.robot.commands.LimelightShooter;
 
 public class Shooter extends SubsystemBase {
@@ -30,6 +32,7 @@ public class Shooter extends SubsystemBase {
   private RelativeEncoder encoder2;
 
 
+
   //private double rStick;
   private static double pow3;
   /** Creates a new Shooter. */
@@ -38,26 +41,23 @@ public class Shooter extends SubsystemBase {
     motor1 = new CANSparkMax(5, MotorType.kBrushless);
     motor2 = new CANSparkMax(6, MotorType.kBrushless);
 
+    // it will take 2 seconds for the motors to reach maximum speed
+    // makes it so the robot does not suffer brownout issues
+    motor1.setClosedLoopRampRate(2);
+    motor2.setClosedLoopRampRate(2);
+
 
     // encoder for seeing speeds
     encoder = motor1.getEncoder();
 
+    setDefaultCommand(new IncrementalShooter(this));
   } 
 
   
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    // if b button is pressed on driver controller then automatically set controller speed
-    if (RobotContainer.joystick2.getRawButton(Constants.ABUTTON)) {
-      Limelight.enableLimelight();
-      new LimelightShooter(this);
-    }
-    // at any other time, then turn on intremental increase
-    else {
-      Limelight.disableLimelight();
-      intermittentShooterIncrease();
-    }
+
 
     // get rpm for shooter motor
     SmartDashboard.putNumber("rpm", encoder.getVelocity());
@@ -70,27 +70,6 @@ public class Shooter extends SubsystemBase {
     
   }
   
-  // sposed to be incremental shooter increase
-  private void intermittentShooterIncrease() {
-    pow3 = RobotContainer.joystick2.getRawAxis(Constants.RT) - RobotContainer.joystick2.getRawAxis(Constants.LT);
- 
-    if (pow3 > 0) {
-      pow3 = (Math.pow(pow3, 2)) / 1.25 + .2;
-      if (pow3 < .3) {
-        pow3 = 0;
-      }
-    }
-    else if (pow3 < 0) {
-      pow3 = -((Math.pow(pow3, 2)) / 1.25) - .2;
-      if (pow3 > -.3) {
-        pow3 = 0;
-      }
-    }
-
-    //setting motors
-    setShooterSpeeds(pow3);
-  }
-
 
   // set shooter speeds
   public static void setShooterSpeeds(double speed) {

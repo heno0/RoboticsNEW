@@ -6,6 +6,8 @@ package frc.robot.commands;
   
 
 
+import com.revrobotics.SparkMaxPIDController;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -26,7 +28,6 @@ public class AutoMove extends CommandBase {
   private PIDController xPID;
   private PIDController yPID;
   private PIDController rotationPID;
-
 
   private double moveX;
   private double moveY;

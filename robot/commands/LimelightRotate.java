@@ -34,15 +34,21 @@ public class LimelightRotate extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    // x offset from target and limelight crosshair
     xOffset = Limelight.getTX();
 
 
     if (Math.abs(xOffset) > threshold) {
       // https://www.desmos.com/calculator/jmnqcraj3g
+      // if x offset deg is greater than threshold then turn at offset/83
       adjustRotation = xOffset/83;
+
+      // caps out rotation at 1
       if (adjustRotation > 1) {
         adjustRotation = 1;
       }
+
+      // caps out rotation at -1
       else if (adjustRotation < -1) {
         adjustRotation = -1;
       }

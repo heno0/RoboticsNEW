@@ -30,7 +30,7 @@ public class AutoIndex extends CommandBase {
   @Override
   public void execute() {
 
-    // to get to index state 1 (one ball loaded but can't be shot yet )
+    // to get to index state 1 (one ball loaded but can't be shot yet)
     if (indexState == 0) {
       if (colorSensorCheck() && Sensors.getDistanceNear()) {
         indexState = 1;
@@ -69,6 +69,7 @@ public class AutoIndex extends CommandBase {
   }
 
   public boolean colorSensorCheck() {
+    // returns true if it is the wanted color, false if it is unwanted
     if (Sensors.determineColour() == Constants.WANTEDCOLOR) {
       colorState = true;
     } 
@@ -80,6 +81,7 @@ public class AutoIndex extends CommandBase {
   }
 
   public String stateToString() {
+    // gives information about the state and what that means for the robot
     if (indexState == 0) {
       stateString = "(0) No ball loaded";
     }

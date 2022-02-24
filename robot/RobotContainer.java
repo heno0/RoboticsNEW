@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AutoMove;
 import frc.robot.commands.AutoPlan;
+import frc.robot.commands.IncrementalShooter;
 import frc.robot.commands.LimelightRotate;
 import frc.robot.commands.LimelightShooter;
 import frc.robot.commands.MecanumCommand;
@@ -44,6 +45,8 @@ public class RobotContainer {
   private Limelight limelight;
   private LimelightRotate limelightRotate;
   private Intake intake;
+
+  private IncrementalShooter shooterCommand;
   private Shooter shooter;
   private Sensors sensors;
   private Compressor compressor;
@@ -70,6 +73,7 @@ public class RobotContainer {
 
     // shooter
     shooter = new Shooter();
+    shooterCommand = new IncrementalShooter(shooter);
 
      //limelight
     limelight = new Limelight();
@@ -105,7 +109,10 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    // while a button on driver controller is held, run auto limelight rotate
     a.whileActiveContinuous(new LimelightRotate(mecanumSubsystem));
+
+    // while a button on shooter controller is held, run auto limelight shooter
     a2.whileActiveContinuous(new LimelightShooter(shooter));
   }
 

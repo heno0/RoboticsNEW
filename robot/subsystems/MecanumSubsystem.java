@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.SparkMaxRelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 // IF  REV  IMPORTS FAIL AT ANY TIME!!!!!!
@@ -55,6 +56,9 @@ public class MecanumSubsystem extends SubsystemBase {
   private static RelativeEncoder LBE;
 
   private static Rotation2d currentAngle;
+
+  
+  private SparkMaxPIDController pid2;
 
 
   private static MecanumDriveOdometry currentPos;
@@ -105,6 +109,7 @@ public class MecanumSubsystem extends SubsystemBase {
     LFE = frontLeft.getEncoder();
     LBE = backLeft.getEncoder();
 
+    pid2 = frontLeft.getPIDController();
 
     // creating navx object
     navx = new AHRS(SPI.Port.kMXP, (byte) 50);
@@ -121,19 +126,12 @@ public class MecanumSubsystem extends SubsystemBase {
     initialPos = new MecanumDriveOdometry(kinematics, initHeading, initPos2d);
     currentPos = new MecanumDriveOdometry(kinematics, initHeading, initPos2d);
 
+    setDefaultCommand(new MecanumCommand(this));
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    if (RobotContainer.joystick.getRawButton(Constants.ABUTTON)) {
-      Limelight.enableLimelight(); 
-      new LimelightRotate(this).schedule();
-    }
-    else if (RobotContainer.joystick.getRawButton(Constants.ABUTTON) == false) {
-      Limelight.disableLimelight();
-      new MecanumCommand(this).schedule();
-    }
   }
 
   public static void updateOdometry() {
