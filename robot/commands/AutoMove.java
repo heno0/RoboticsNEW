@@ -16,13 +16,13 @@ import frc.robot.Constants;
 import frc.robot.subsystems.MecanumSubsystem;
 
 public class AutoMove extends CommandBase {
-  private Pose2d initialPosition;
-  private Pose2d currentPosition;
-  private Pose2d targetPosition;
+  private double initialPosition;
+  private double currentPosition;
+  private double targetPosition;
 
   private final double xx;
   private final double yy;
-  private final Rotation2d rrotation;
+  private final double rrotation;
 
   private PIDController xPID;
   private PIDController yPID;
@@ -35,31 +35,33 @@ public class AutoMove extends CommandBase {
 
 
   /** Creates a new AutoMove. */
-  public AutoMove(final double x, final double y, final Rotation2d rotation) {
+  public AutoMove(final double x, final double y, final double rotation, MecanumSubsystem mecanum) {
     // Use addRequirements() here to declare subsystem dependencies.
     xx = x;
     yy = y;
     rrotation = rotation;
+    addRequirements(mecanum);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     // initial position for get odometry, this will never change
-    initialPosition = MecanumSubsystem.getOdometry();
+    initialPosition = MecanumSubsystem.RFE.getPosition(); 
 
     // target position from initial position and the meters of where it wants to go
-    targetPosition = new Pose2d(initialPosition.getX() + xx, initialPosition.getY() + yy, initialPosition.getRotation().plus(rrotation));
+    targetPosition = initialPosition+yy;
 
     // creates pid controllers with for X, Y, and rotation for the driving
-    xPID = new PIDController(1, 0, 0);
-    yPID = new PIDController(1, 0, 0);
-    rotationPID = new PIDController(1, 0, 0);
+    //xPID = new PIDController(1, 0, 0);
+    yPID = new PIDController(0.5, 0.1, 0.1);
+    //rotationPID = new PIDController(1, 0, 0);
     
     // set the point for where the pid controllers want to go, they will calculate for this point
-    xPID.setSetpoint(targetPosition.getX());
-    yPID.setSetpoint(targetPosition.getY());
-    rotationPID.setSetpoint(targetPosition.getRotation().getDegrees());
+    //xPID.setSetpoint(targetPosition.getX());
+    yPID.setSetpoint(targetPosition);
+    //rotationPID.setSetpoint(targetPosition.getRotation().getDegrees());
+    //yPID.setIntegratorRange(-0.3, 0.3);
   }
 
   
@@ -67,37 +69,34 @@ public class AutoMove extends CommandBase {
   @Override
   public void execute() {
     // gets where the current position is since its in periodic
-    currentPosition = MecanumSubsystem.getOdometry();
+    currentPosition = MecanumSubsystem.RFE.getPosition();
 
-    if (xPID.atSetpoint() && yPID.atSetpoint() && rotationPID.atSetpoint()) {
-      System.out.println("done");
-      MecanumSubsystem.setSpeeds(0, 0, 0, 0);
-    } else {
+    
+    
       // move calculations
-      moveX = xPID.calculate(currentPosition.getX());
-      moveY = yPID.calculate(currentPosition.getY());
-      moveRotation = rotationPID.calculate(currentPosition.getRotation().getDegrees());
+      moveY = yPID.calculate(currentPosition);
 
-      moveX = Constants.maxmin(moveX, 1);
+      
       moveY = Constants.maxmin(moveY, 1);
-      moveRotation = Constants.maxmin(moveRotation, 1);
 
-      SmartDashboard.putNumber("move x", moveX);
       SmartDashboard.putNumber("move y", moveY);
-      SmartDashboard.putNumber("move rotation", moveRotation);
+      SmartDashboard.putNumber("Encoder", currentPosition);
+      SmartDashboard.putNumber("error", yPID.getPositionError());
 
-      MecanumSubsystem.setSpeeds(moveX, moveY, moveRotation, 0.1);
-    }    
+      MecanumSubsystem.setSpeeds(0, moveY, 0, 0.1);
+    
   }
 
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(final boolean interrupted) {}
+  public void end(final boolean interrupted) {
+    MecanumSubsystem.setSpeeds(0, 0, 0, 0.25);
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return yPID.atSetpoint();
   }
 }

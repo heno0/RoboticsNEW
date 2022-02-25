@@ -46,10 +46,10 @@ public class MecanumSubsystem extends SubsystemBase {
   public static MecanumDriveWheelSpeeds wheelSpeeds;
 
   // wheel encoders, e.g.(R = right, B = back, E = encoder)
-  private static RelativeEncoder RFE;
-  private static RelativeEncoder RBE;
-  private static RelativeEncoder LFE;
-  private static RelativeEncoder LBE;
+  public static RelativeEncoder RFE;
+  public static RelativeEncoder RBE;
+  public static RelativeEncoder LFE;
+  public static RelativeEncoder LBE;
 
   private static Rotation2d currentAngle;
 

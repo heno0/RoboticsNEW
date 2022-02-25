@@ -40,7 +40,7 @@ import frc.robot.subsystems.Shooter;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public MecanumSubsystem mecanumSubsystem;
-  private MecanumCommand mecanumCommand;
+  public MecanumCommand mecanumCommand;
   private AutoMove autoMove;
   private Limelight limelight;
   private LimelightRotate limelightRotate;
@@ -96,6 +96,7 @@ public class RobotContainer {
 
     compressor = new Compressor(0, PneumaticsModuleType.CTREPCM);
     compressor.enableDigital();
+    compressor.disable();
 
 
     
@@ -124,6 +125,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // the command set here will run in autonomous
-    return new AutoPlan();
+    return new AutoPlan(mecanumSubsystem);
   }
 }
