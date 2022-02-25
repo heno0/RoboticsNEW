@@ -62,11 +62,11 @@ public final class Constants {
         }
     
         if (value < -maxmin) {
-            value = maxmin;
+            value = -maxmin;
         }
         
 
-        return maxmin;
+        return value;
     }
 
 }

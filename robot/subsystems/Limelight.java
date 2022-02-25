@@ -37,6 +37,7 @@ public class Limelight extends SubsystemBase {
     
     adjustRotation = 0;
     threshold = 3;
+    disableLimelight();
 
 
     

@@ -6,8 +6,10 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.MecanumSubsystem;
+import frc.robot.subsystems.Shooter;
 
 public class LimelightRotate extends CommandBase {
   /** Creates a new LimelightRotate. */
@@ -35,6 +37,7 @@ public class LimelightRotate extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    Limelight.enableLimelight();
     // x offset from target and limelight crosshair
     xOffset = Limelight.getTX();
 
@@ -44,15 +47,6 @@ public class LimelightRotate extends CommandBase {
       // if x offset deg is greater than threshold then turn at offset/83
       adjustRotation = xOffset/83;
 
-      // caps out rotation at 1
-      if (adjustRotation > 1) {
-        adjustRotation = 1;
-      }
-
-      // caps out rotation at -1
-      else if (adjustRotation < -1) {
-        adjustRotation = -1;
-      }
       SmartDashboard.putNumber("limelight rotation", adjustRotation);
       
       MecanumSubsystem.setSpeeds(0, 0, adjustRotation, .036);
@@ -66,7 +60,9 @@ public class LimelightRotate extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    Limelight.disableLimelight();
+  }
 
   // Returns true when the command should end.
   @Override

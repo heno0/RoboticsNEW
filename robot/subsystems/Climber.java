@@ -18,13 +18,14 @@ public class Climber extends SubsystemBase {
 
     // set solenoid values (placeholder values)
     sol1 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 1, 2);
+    sol1.set(Value.kReverse);
 
   }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     
-    if (RobotContainer.joystick2.getRawButtonPressed(Constants.BBUTTON) == true) {
+    if (RobotContainer.joystick.getRawButtonPressed(Constants.BBUTTON) == true) {
       // if you press the b button, then go up
       sol1.toggle();
     

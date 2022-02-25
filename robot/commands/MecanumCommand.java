@@ -51,17 +51,17 @@ public class MecanumCommand extends CommandBase {
     // rotation
     rotation = (RobotContainer.joystick.getRawAxis(Constants.RIGHTSTICKX));
 
-    stickX = 0.888*(stickX-0.1)+0.2;
-    stickY = 0.888*(stickY-0.1)+0.2;
+    stickX = 0.9*stickX;
+    stickY = 0.9*stickY;
 
     if (rotation >= 0){
-      rotation = Math.pow((rotation-0.1),2) + 0.2;
+      rotation = Math.pow(rotation,2) * .9;
     } else {
-      rotation = -1*Math.pow((rotation+0.1), 2) - 0.2;
+      rotation = -1*Math.pow(rotation, 2) * .9;
     }
 
     // setting the speeds
-    MecanumSubsystem.setSpeeds(stickX, stickY, rotation, 0.25);
+    MecanumSubsystem.setSpeeds(stickX, stickY, rotation, 0.1);
     
   }
 

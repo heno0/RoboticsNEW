@@ -26,7 +26,7 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
   
-  public Joystick joystick2;
+  public Joystick joystick;
 
   public UsbCamera frontCamera;
   public UsbCamera climbingCamera;
@@ -58,7 +58,7 @@ public class Robot extends TimedRobot {
     frontCamera.setResolution(640, 480);
     climbingCamera.setResolution(640, 480);
 
-    joystick2 = new Joystick(Constants.JOYSTICKID);
+    joystick = new Joystick(Constants.JOYSTICKID);
 
     color = DriverStation.getAlliance();
   }
@@ -116,16 +116,20 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    if (joystick2.getRawButton(8)) {
-      cameraType = "Climbing Camera";
-      table.setString(climbingCamera.getName());
-    }
-    else {
-      cameraType = "Front Camera";
-      table.setString(frontCamera.getName());
-    }
+    if (joystick.getRawButtonPressed(8)) {
+
+      if(table.getString("")==frontCamera.getName()){
+        cameraType = "Climbing Camera";
+        table.setString(climbingCamera.getName());
+      }
+      else {
+        cameraType = "Front Camera";
+        table.setString(frontCamera.getName());
+      }
     SmartDashboard.putString("Camera Selected", cameraType);
-  }
+    }
+}
+
 
   @Override
   public void testInit() {

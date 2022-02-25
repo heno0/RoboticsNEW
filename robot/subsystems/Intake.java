@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -32,6 +33,7 @@ public class Intake extends SubsystemBase {
 
     // set climbing solenoid
     climberSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 3);
+    climberSolenoid.set(Value.kForward);
 
 
   }
@@ -42,9 +44,9 @@ public class Intake extends SubsystemBase {
 
 
     // setting the intake
-    if (RobotContainer.joystick2.getRawButtonPressed(Constants.BBUTTON)) {
+    if (RobotContainer.joystick2.getRawButton(Constants.BBUTTON)) {
       speed = -1;
-    } else if (RobotContainer.joystick2.getRawButtonPressed(Constants.XBUTTON)) {
+    } else if (RobotContainer.joystick2.getRawButton(Constants.XBUTTON)) {
       speed = .75;
     } else {
       intake = "";

@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -32,19 +33,30 @@ public class Indexer extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     
-    
-    intermittentIndexerIncrease();
+    if (RobotContainer.joystick2.getRawButton(Constants.RBUMPER)) {
+      AutoIndex.resetState();
+      enableIndexer(.7);
+    }
+    else if (RobotContainer.joystick2.getRawButton(Constants.LBUMPER)) {
+      enableIndexer(-0.7);
+    }
+
+    if (RobotContainer.joystick2.getRawButtonReleased(Constants.LBUMPER)||RobotContainer.joystick2.getRawButtonReleased(Constants.RBUMPER)){
+      enableIndexer(0);
+    }
   }
   
   private void intermittentIndexerIncrease() {
-    indexSpeed = RobotContainer.joystick2.getRawAxis(Constants.LEFTSTICKY);
+    //indexSpeed = RobotContainer.joystick2.getRawAxis(Constants.LEFTSTICKY);
    
-    if (Math.abs(indexSpeed) < 0.25){
-      indexSpeed = 0;
-      AutoIndex.resetState();
+    if (Math.abs(indexSpeed) < 0.1){
+     // indexSpeed = 0;
+    }
+    else {
+     // AutoIndex.resetState();
     }
     if (RobotContainer.joystick2.getRawButton(Constants.RBUMPER)) {
-      indexSpeed = 0.4;
+      indexSpeed = 0.5;
       AutoIndex.resetState();
     }
     enableIndexer(indexSpeed);

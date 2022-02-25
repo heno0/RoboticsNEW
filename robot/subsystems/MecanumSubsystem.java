@@ -155,6 +155,7 @@ public class MecanumSubsystem extends SubsystemBase {
       rotation = (double) 0;
     }
 
+    
 
 
     SmartDashboard.putNumber("rotation", rotation);
@@ -169,6 +170,11 @@ public class MecanumSubsystem extends SubsystemBase {
     // left
     frontLeftPower = stickY + stickX + rotation;
     backLeftPower = stickY - stickX + rotation;
+
+
+    stickX = Constants.maxmin(stickX, 1);
+    stickY = Constants.maxmin(stickY, 1);
+    rotation = Constants.maxmin(rotation, 1);
     // setting motor speeds
     // right
     frontRight.set(frontRightPower);

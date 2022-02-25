@@ -52,9 +52,9 @@ public class AutoMove extends CommandBase {
     targetPosition = new Pose2d(initialPosition.getX() + xx, initialPosition.getY() + yy, initialPosition.getRotation().plus(rrotation));
 
     // creates pid controllers with for X, Y, and rotation for the driving
-    xPID = new PIDController(1, 1, 1);
-    yPID = new PIDController(1, 1, 1);
-    rotationPID = new PIDController(1, 1, 1);
+    xPID = new PIDController(1, 0, 0);
+    yPID = new PIDController(1, 0, 0);
+    rotationPID = new PIDController(1, 0, 0);
     
     // set the point for where the pid controllers want to go, they will calculate for this point
     xPID.setSetpoint(targetPosition.getX());

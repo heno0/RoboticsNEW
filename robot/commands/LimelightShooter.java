@@ -26,28 +26,23 @@ public class LimelightShooter extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
+    Limelight.enableLimelight();
     // get area for calculations
     shooterArea = Limelight.getTargetArea();
 
     // calculate shooter speed from shooter area
     shooterSpeed = ((-0.00027*shooterArea) + 1.17456) * Shooter.getFactor();
 
-    if (shooterSpeed > 1) {
-      shooterSpeed = 1;
-    }
-    else if (shooterSpeed < -1) {
-      shooterSpeed = -1;
-    }
-
     // set shooter speeds
     Shooter.setShooterSpeeds(shooterSpeed);
+    
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     Shooter.setShooterSpeeds(0);
+    Limelight.disableLimelight();
   }
 
   // Returns true when the command should end.

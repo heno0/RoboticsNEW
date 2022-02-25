@@ -9,8 +9,10 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.commands.IncrementalShooter;
 
@@ -77,6 +79,8 @@ public class Shooter extends SubsystemBase {
 
   // set shooter speeds
   public static void setShooterSpeeds(double speed) {
+    speed = Constants.maxmin(speed, 1);
+
     motor1.set(-speed);
     motor2.set(speed);
   }

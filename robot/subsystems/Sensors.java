@@ -14,7 +14,7 @@ public class Sensors extends SubsystemBase {
   private static double red;
   private static double green;
   private ColorSensorV3 colorSensor;
-  public final static int threshold = 1000;
+  public final static int threshold = 100;
   private static DigitalInput distanceSensor;
   private static DigitalInput distanceSensorFar;
   private static boolean shortDistance;
@@ -27,7 +27,7 @@ public class Sensors extends SubsystemBase {
  
   //                                          R,   G,    B
   private static final int[] blueValues = {3000, 7000, 10600};
-  private static final int[] redValues = {10000, 6000, 2000};
+  private static final int[] redValues = {2100, 400, 500};
  
   public Sensors() { 
     distanceSensor = new DigitalInput(1);
