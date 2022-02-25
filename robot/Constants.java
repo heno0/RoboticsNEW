@@ -49,8 +49,8 @@ public final class Constants {
     public static final int LEFTSWITCH = 1;
 
     // STARTING POS
-    public static final float STARTX = 1;
-    public static final float STARTY = 1;
+    public static final float STARTX = 0;
+    public static final float STARTY = 0;
 
     // COLORS
     public static final String OPPS = Robot.getOpps();

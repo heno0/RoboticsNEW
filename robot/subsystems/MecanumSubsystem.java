@@ -4,21 +4,14 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.MecanumDriveKinematics;
-import edu.wpi.first.math.kinematics.MecanumDriveOdometry;
 import edu.wpi.first.math.kinematics.MecanumDriveWheelSpeeds;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.commands.MecanumCommand;
 
 
-import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -46,33 +39,8 @@ public class MecanumSubsystem extends SubsystemBase {
   public static MecanumDriveWheelSpeeds wheelSpeeds;
 
   // wheel encoders, e.g.(R = right, B = back, E = encoder)
-  public static RelativeEncoder RFE;
-  public static RelativeEncoder RBE;
   public static RelativeEncoder LFE;
-  public static RelativeEncoder LBE;
 
-  private static Rotation2d currentAngle;
-
-  
-
-  private static MecanumDriveOdometry currentPos;
-
-  private static AHRS navx;
-
-  private MecanumDriveKinematics kinematics;
-
-  // wheel locations
-  private Translation2d RFL;
-  private Translation2d RBL;
-  private Translation2d LFL;
-  private Translation2d LBL;
-
-  public static MecanumDriveOdometry initialPos;
-  private Pose2d initPos2d;
-  private Rotation2d initHeading;
-
-  private static double revs;
-  private static double pwm;
 
 
 
@@ -91,33 +59,9 @@ public class MecanumSubsystem extends SubsystemBase {
     frontRight.setInverted(true);
     backRight.setInverted(true);
 
-    // wheel positions in relation to the center of the robot
-    RFL = new Translation2d(0.3, -0.25);
-    RBL = new Translation2d(-0.3, -0.25);
-    LFL = new Translation2d(0.3, 0.25);
-    LBL = new Translation2d(-0.3, 0.25);
-
-    // encoders
-    RFE = frontRight.getEncoder();
-    RBE = backRight.getEncoder();
+    // encoder
     LFE = frontLeft.getEncoder();
-    LBE = backLeft.getEncoder();
 
-
-    // creating navx object
-    navx = new AHRS(SPI.Port.kMXP, (byte) 50);
-
-    // getting initial direction
-    initHeading = new Rotation2d((double) navx.getCompassHeading());
-
-    // creating kinematics object for odometry object
-    kinematics = new MecanumDriveKinematics(LFL, RFL, LBL, RBL);
-
-    // start X and Y need to be updated to starting positions (m)
-    initPos2d = new Pose2d(Constants.STARTX, Constants.STARTY, initHeading);
-
-    initialPos = new MecanumDriveOdometry(kinematics, initHeading, initPos2d);
-    currentPos = new MecanumDriveOdometry(kinematics, initHeading, initPos2d);
 
     setDefaultCommand(new MecanumCommand(this));
   }
@@ -125,24 +69,8 @@ public class MecanumSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-  }
+    
 
-  public static void updateOdometry() {
-    // get current wheel speeds
-    wheelSpeeds = new MecanumDriveWheelSpeeds(EncoderMs(LFE), EncoderMs(RFE), EncoderMs(LBE),
-        EncoderMs(RBE));
-
-    // get current angle
-    currentAngle = new Rotation2d((double) navx.getRoll());
-
-    // update pose
-    currentPos.update(currentAngle, wheelSpeeds);
-  }
-
-  public static Pose2d getOdometry() {
-    updateOdometry();
-    Pose2d poop = currentPos.getPoseMeters();
-    return new Pose2d(poop.getX(), poop.getY(), poop.getRotation());
   }
 
   public static void setSpeeds(double stickX, double stickY, double rotation, double deadzone) {
@@ -183,11 +111,5 @@ public class MecanumSubsystem extends SubsystemBase {
     // left
     frontLeft.set(frontLeftPower);
     backLeft.set(backLeftPower);
-  }
-  
-  public static double EncoderMs(RelativeEncoder encoder) {
-    pwm = encoder.getVelocity();
-    revs = encoder.getCountsPerRevolution();
-    return pwm / revs * 6 * 0.0254 / 50;
   }
 }
