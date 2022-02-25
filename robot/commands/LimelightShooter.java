@@ -5,7 +5,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 
@@ -13,6 +12,7 @@ public class LimelightShooter extends CommandBase {
   
   static double shooterArea;
   static double shooterSpeed;
+  
   /** Creates a new LimelightShooter. */
   public LimelightShooter(Shooter shooter) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -31,7 +31,7 @@ public class LimelightShooter extends CommandBase {
     shooterArea = Limelight.getTargetArea();
 
     // calculate shooter speed from shooter area
-    shooterSpeed = ((-0.00027*shooterArea) + 1.17456);
+    shooterSpeed = ((-0.00027*shooterArea) + 1.17456) * Shooter.getFactor();
 
     if (shooterSpeed > 1) {
       shooterSpeed = 1;

@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-import java.beans.*;
 
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -15,13 +14,9 @@ import frc.robot.commands.AutoIndex;
 
 public class Indexer extends SubsystemBase {
   private double indexSpeed = 0;
-  private double increment = 0.1;
   private static Spark logMotor;
 
 
-  private static int indexState = 0;
-
-  private boolean flag = false;
 
 
   /** Creates a new Indexer. */
@@ -29,6 +24,8 @@ public class Indexer extends SubsystemBase {
     
     // log ride motor
     logMotor = new Spark(1);
+    
+    setDefaultCommand(new AutoIndex(this));
   }
 
   @Override
@@ -37,7 +34,6 @@ public class Indexer extends SubsystemBase {
     
     
     intermittentIndexerIncrease();
-    setDefaultCommand(new AutoIndex(this));
   }
   
   private void intermittentIndexerIncrease() {
@@ -45,11 +41,11 @@ public class Indexer extends SubsystemBase {
    
     if (Math.abs(indexSpeed) < 0.25){
       indexSpeed = 0;
-      resetState();
+      AutoIndex.resetState();
     }
     if (RobotContainer.joystick2.getRawButton(Constants.RBUMPER)) {
-      indexSpeed = 0.8;
-      resetState();
+      indexSpeed = 0.4;
+      AutoIndex.resetState();
     }
     enableIndexer(indexSpeed);
   }
@@ -59,9 +55,6 @@ public class Indexer extends SubsystemBase {
   public static void enableIndexer(double speed) {
     SmartDashboard.putNumber("INDEX enable Speed", speed);
     logMotor.set(-speed);
-  }
-  public static void resetState() {
-    indexState = 0;
   }
 
 }

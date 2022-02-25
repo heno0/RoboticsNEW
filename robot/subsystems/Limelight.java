@@ -5,12 +5,10 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
-import frc.robot.RobotContainer;
+
 
 public class Limelight extends SubsystemBase {
   // table
@@ -25,7 +23,6 @@ public class Limelight extends SubsystemBase {
 
 
   // drive values
-  private double adjustX;
   private double adjustRotation;
 
   private double threshold;
@@ -33,19 +30,12 @@ public class Limelight extends SubsystemBase {
   private static double horizontal;
   private static double vertical;
 
-  private static int poo;
-
-  private static double shooterArea;
-  private static double shooterSpeed;
-
-
   /** Creates a new Limelight. */
   public Limelight() {
     // assign table value
     table = NetworkTableInstance.getDefault().getTable("limelight");
     
     adjustRotation = 0;
-    adjustX = 0;
     threshold = 3;
 
 

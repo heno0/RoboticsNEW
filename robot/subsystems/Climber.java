@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -14,7 +13,6 @@ import frc.robot.RobotContainer;
 
 public class Climber extends SubsystemBase {
   private DoubleSolenoid sol1;
-  private DoubleSolenoid sol2;
   /** Creates a new Climber. */
   public Climber() {
 

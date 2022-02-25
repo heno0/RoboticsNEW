@@ -3,9 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
-import org.opencv.core.Mat;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
@@ -13,7 +12,6 @@ import frc.robot.subsystems.MecanumSubsystem;
 
 public class MecanumCommand extends CommandBase {
 
-  private final MecanumSubsystem mecanumSubsystem;
 
   // sticks
   public double stickX;
@@ -33,7 +31,6 @@ public class MecanumCommand extends CommandBase {
 
   /** Creates a new MecanumCommand. */
   public MecanumCommand(MecanumSubsystem mecanum) {
-    mecanumSubsystem = mecanum;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(mecanum);
   }
@@ -63,12 +60,9 @@ public class MecanumCommand extends CommandBase {
       rotation = -1*Math.pow((rotation+0.1), 2) - 0.2;
     }
 
-    if (Math.abs(rotation) > 0 || Math.abs(stickX) > 0 || Math.abs(stickY) > 0) {
-      // setting the speeds
-
-
-      MecanumSubsystem.setSpeeds(stickX, stickY, rotation, 0.25);
-    }
+    // setting the speeds
+    MecanumSubsystem.setSpeeds(stickX, stickY, rotation, 0.25);
+    
   }
 
   // Called once the command ends or is interrupted.

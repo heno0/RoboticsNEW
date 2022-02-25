@@ -6,7 +6,6 @@ package frc.robot.commands;
   
 
 
-import com.revrobotics.SparkMaxPIDController;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;

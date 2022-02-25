@@ -53,8 +53,8 @@ public final class Constants {
     public static final float STARTY = 1;
 
     // COLORS
-    public static final String OPPS = "Blue";
-    public static final String WANTEDCOLOR = "Red";
+    public static final String OPPS = Robot.getOpps();
+    public static final String WANTEDCOLOR = Robot.getAllianceColor();
 
     public static double maxmin(double value, double maxmin) {
         if (value > maxmin) {

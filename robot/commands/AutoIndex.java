@@ -12,7 +12,7 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Sensors;
 
 public class AutoIndex extends CommandBase {
-  double indexState = 0;
+  static double indexState = 0;
   boolean colorState = false;
   String stateString;
 
@@ -95,5 +95,9 @@ public class AutoIndex extends CommandBase {
       stateString = "(3) 2 balls loaded";
     }
     return stateString;
+  }
+
+  public static void resetState() {
+    indexState = 0;
   }
 }

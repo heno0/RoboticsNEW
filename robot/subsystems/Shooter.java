@@ -4,32 +4,27 @@
 
 package frc.robot.subsystems;
 
-import java.beans.IndexedPropertyChangeEvent;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.RelativeEncoder;
 
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.commands.IncrementalShooter;
-import frc.robot.commands.LimelightShooter;
+
 
 public class Shooter extends SubsystemBase {
   private static CANSparkMax motor1;
   private static CANSparkMax motor2;
-  private static Spark logMotor;
-  //double speed = 0.5;
-  double increment = 0.05;
-  double indexSpeed = 0.;
+  
+  
+  static double increment = 0.05;
+  static double factor = 1;
 
 
   private RelativeEncoder encoder;
-  private RelativeEncoder encoder2;
 
 
 
@@ -68,14 +63,25 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putNumber("Shooter Speed", pow3);
 
     
+    // if start button is pressed then increase factor by .05
+    if (RobotContainer.joystick2.getRawButtonPressed(8)) {
+      factor =+ increment;
+    }
+    // if back button is pressed then decrease factor by .05
+    else if (RobotContainer.joystick2.getRawButtonPressed(7)) {
+      factor =- increment;
+    }
+    
   }
   
 
   // set shooter speeds
   public static void setShooterSpeeds(double speed) {
-
     motor1.set(-speed);
     motor2.set(speed);
   }
 
+  public static double getFactor() {
+    return factor;
+  }
 }

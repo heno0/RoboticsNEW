@@ -12,8 +12,6 @@ import edu.wpi.first.math.kinematics.MecanumDriveOdometry;
 import edu.wpi.first.math.kinematics.MecanumDriveWheelSpeeds;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
-import frc.robot.commands.LimelightRotate;
 import frc.robot.commands.MecanumCommand;
 
 
@@ -23,8 +21,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxPIDController;
-import com.revrobotics.SparkMaxRelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 // IF  REV  IMPORTS FAIL AT ANY TIME!!!!!!
 // click WPILib button, click manage vendor libraries, click install new libraries online
@@ -58,8 +54,6 @@ public class MecanumSubsystem extends SubsystemBase {
   private static Rotation2d currentAngle;
 
   
-  private SparkMaxPIDController pid2;
-
 
   private static MecanumDriveOdometry currentPos;
 
@@ -109,7 +103,6 @@ public class MecanumSubsystem extends SubsystemBase {
     LFE = frontLeft.getEncoder();
     LBE = backLeft.getEncoder();
 
-    pid2 = frontLeft.getPIDController();
 
     // creating navx object
     navx = new AHRS(SPI.Port.kMXP, (byte) 50);

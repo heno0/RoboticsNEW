@@ -1,17 +1,12 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 
-import java.security.DigestInputStream;
-
-import com.fasterxml.jackson.databind.deser.std.NumberDeserializers.ShortDeserializer;
 import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Robot;
 
 public class Sensors extends SubsystemBase {
  
@@ -25,7 +20,7 @@ public class Sensors extends SubsystemBase {
   private static boolean shortDistance;
   private static boolean longDistance;
 
-  private static boolean distanceBOO = false;
+
 
   private static String color;
 

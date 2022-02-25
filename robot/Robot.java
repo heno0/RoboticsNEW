@@ -8,6 +8,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -25,7 +26,7 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
   
-  public static Joystick joystick2;
+  public Joystick joystick2;
 
   public UsbCamera frontCamera;
   public UsbCamera climbingCamera;
@@ -33,6 +34,10 @@ public class Robot extends TimedRobot {
   public NetworkTableEntry table;
 
   public String cameraType = "";
+
+  public static DriverStation.Alliance color;
+
+  public static String returnCol;
   
 
   /**
@@ -53,7 +58,9 @@ public class Robot extends TimedRobot {
     frontCamera.setResolution(640, 480);
     climbingCamera.setResolution(640, 480);
 
-    joystick2 = new Joystick(Constants.SECONDARYJOYSTICK);
+    joystick2 = new Joystick(Constants.JOYSTICKID);
+
+    color = DriverStation.getAlliance();
   }
 
   /**
@@ -129,4 +136,26 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {}
+
+  public static String getAllianceColor() {
+    if (color == DriverStation.Alliance.Blue) {
+      returnCol = "Blue";
+    }
+    else if (color == DriverStation.Alliance.Red) {
+      returnCol = "Red";
+    }
+    else if (color == DriverStation.Alliance.Invalid) {
+      returnCol = "other";
+    }
+    return returnCol;
+  }
+  public static String getOpps() {
+    if (getAllianceColor() == "Blue") {
+      returnCol = "Red";
+    }
+    else if (getAllianceColor() == "Red") {
+      returnCol = "Blue";
+    }
+    return returnCol;
+  }
 }
