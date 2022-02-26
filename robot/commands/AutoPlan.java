@@ -25,28 +25,28 @@ public class AutoPlan extends SequentialCommandGroup {
   public AutoPlan(MecanumSubsystem meca, Indexer index, Intake intake, Shooter shooter) {
     // Use addRequirements() here to declare subsystem dependencies.
     addCommands(
-      new IntakeCommandAuto(intake),
+      new IntakeCommandAuto(intake), //intake down
 
       new ParallelRaceGroup(
-        new AutoMoveY(meca, 100),
-        new IntakeSpinAuto(intake)
+        new AutoMoveY(meca, 100), //have to figure out distance 100 belongs to. Conversion didn't work. Should never reach this distance unless Color not detected
+        new IntakeSpinAuto(intake) //intake balls till color found, triggers end of race group
       ),
       //new AutoMoveY(meca, 50), //distance in feet
        new ParallelRaceGroup(
-        new DoNothing(75), 
+        new DoNothing(75), //could remove this and just have AutoMoveRot keep spinning till Limelight found
         new AutoMoveRot(meca)),
       /** 
         new ParallelCommandGroup(
-          new LimelightRotateAuto(meca),
+          new LimelightRotateAuto(meca), //commented out because Windows would serve as target
           new DoNothing(50)
         ),*/
-      new LimelightShooterAuto(shooter, false),
+      new LimelightShooterAuto(shooter, false), //spin shooter
       new DoNothing(50),
       new ParallelRaceGroup(
         new DoNothing(200),
-        new IndexSpinAuto(index)
+        new IndexSpinAuto(index) //spin index for 200 count
       ),
-      new LimelightShooterAuto(shooter, true)
+      new LimelightShooterAuto(shooter, true) //disable shooter
 
     );
   }

@@ -37,7 +37,7 @@ public class AutoMoveRot extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    MecanumSubsystem.setSpeeds(0, 0, 0.25, 0.2);
+    MecanumSubsystem.setSpeeds(0, 0, 0.25, 0.2); //start turning
     Limelight.enableLimelight();
   }
 
@@ -45,11 +45,11 @@ public class AutoMoveRot extends CommandBase {
   @Override
   public void execute() {
 
-    if(Limelight.ifTarget()){
+    if(Limelight.ifTarget()){ //found a target
       
       counter++;
       if (counter > 5){
-        isFinished = true;
+        isFinished = true; //must have target for at least 5 cycles prior to finishing
       }
     } else {
       counter=0;
@@ -69,7 +69,4 @@ public class AutoMoveRot extends CommandBase {
     return isFinished;
   }
 
-  public void putNumby(String str, float num) {
-    SmartDashboard.putNumber(str, num);
-  }
 }
