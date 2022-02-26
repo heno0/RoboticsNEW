@@ -21,6 +21,7 @@ public class LimelightRotate extends CommandBase {
 
   static MecanumSubsystem _mecanum;
 
+  boolean fin;
   
   
   public LimelightRotate(MecanumSubsystem mecanum) {
@@ -51,8 +52,9 @@ public class LimelightRotate extends CommandBase {
       
       MecanumSubsystem.setSpeeds(0, 0, adjustRotation, .036);
     } else {
-      adjustRotation = 0;
+      adjustRotation = .25;
       MecanumSubsystem.setSpeeds(0, 0, adjustRotation, .1);
+      fin = true;
     }
     SmartDashboard.putNumber("limelight TX 2", xOffset);
 
@@ -67,6 +69,6 @@ public class LimelightRotate extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return fin;
   }
 }

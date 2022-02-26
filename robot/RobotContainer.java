@@ -113,7 +113,7 @@ public class RobotContainer {
     a.whileActiveContinuous(new LimelightRotate(mecanumSubsystem));
 
     // while a button on shooter controller is held, run auto limelight shooter
-    a2.whileActiveContinuous(new LimelightShooter(shooter));
+    a2.whileActiveContinuous(new LimelightShooter(shooter, false));
   }
 
   /**

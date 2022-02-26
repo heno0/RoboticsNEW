@@ -4,7 +4,6 @@
 
 package frc.robot.commands;
 
-import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.SPI;
@@ -14,7 +13,6 @@ import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.MecanumSubsystem;
 
 public class AutoMoveRot extends CommandBase {
-  private AHRS navx;
   private double initialRotation;
   private double currentRotation;
 

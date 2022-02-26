@@ -12,11 +12,16 @@ public class LimelightShooter extends CommandBase {
   
   static double shooterArea;
   static double shooterSpeed;
+
+  static boolean disable;
+  static boolean fin;
   
   /** Creates a new LimelightShooter. */
-  public LimelightShooter(Shooter shooter) {
+  public LimelightShooter(Shooter shooter, boolean disable) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooter);
+    this.disable = disable;
+    fin = false;
   }
 
   // Called when the command is initially scheduled.
@@ -34,15 +39,20 @@ public class LimelightShooter extends CommandBase {
 
     // calculate shooter speed from shooter area
     shooterSpeed = ((-0.00027*shooterArea) + 1.17456) * Shooter.getFactor();
-
-    // set shooter speeds
-    Shooter.setShooterSpeeds(shooterSpeed);
+    if (disable) {Shooter.setShooterSpeeds(0);
+    }
+    else {
+      // set shooter speeds
+      Shooter.setShooterSpeeds(shooterSpeed);
+    }
     
+    fin = true;
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    
     Shooter.setShooterSpeeds(0);
     Limelight.disableLimelight();
   }
@@ -50,6 +60,6 @@ public class LimelightShooter extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return fin;
   }
 }
