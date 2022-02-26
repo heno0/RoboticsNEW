@@ -39,7 +39,7 @@ public class MecanumSubsystem extends SubsystemBase {
   public static MecanumDriveWheelSpeeds wheelSpeeds;
 
   // wheel encoders, e.g.(R = right, B = back, E = encoder)
-  public static RelativeEncoder LFE;
+  public static RelativeEncoder RFE;
 
 
 
@@ -56,11 +56,13 @@ public class MecanumSubsystem extends SubsystemBase {
     frontLeft = new CANSparkMax(Constants.FRONTLEFTMOTOR, MotorType.kBrushless);
     backLeft = new CANSparkMax(Constants.BACKLEFTMOTOR, MotorType.kBrushless);
 
+
+    RFE = frontRight.getEncoder();
+
     frontRight.setInverted(true);
     backRight.setInverted(true);
 
     // encoder
-    LFE = frontLeft.getEncoder();
 
 
     setDefaultCommand(new MecanumCommand(this));

@@ -14,7 +14,7 @@ public class Sensors extends SubsystemBase {
   private static double red;
   private static double green;
   private ColorSensorV3 colorSensor;
-  public final static int threshold = 100;
+  public final static int threshold = 300;
   private static DigitalInput distanceSensor;
   private static DigitalInput distanceSensorFar;
   private static boolean shortDistance;

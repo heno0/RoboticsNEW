@@ -123,6 +123,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // the command set here will run in autonomous
-    return new AutoPlan(mecanumSubsystem);
+    return new AutoPlan(mecanumSubsystem, indexer, intake, shooter);
   }
 }

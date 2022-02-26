@@ -15,7 +15,7 @@ public class Limelight extends SubsystemBase {
   private static NetworkTable table;
 
   // other values from table
-  private boolean ifTarget;
+  private static boolean ifTarget;
 
   private double xOffset;
   private double yOffset;
@@ -49,6 +49,8 @@ public class Limelight extends SubsystemBase {
     table.getEntry("ledMode").setNumber(1);
   }
 
+  
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
@@ -78,7 +80,9 @@ public class Limelight extends SubsystemBase {
   }
 
 
-
+  public static boolean ifTarget(){
+    return ifTarget;
+  }
   public static double getTX(){
     return table.getEntry("tx").getDouble(0);
   }

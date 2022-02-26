@@ -22,7 +22,7 @@ public class Intake extends SubsystemBase {
 
   private double speed;
 
-  private DoubleSolenoid climberSolenoid;
+  private static DoubleSolenoid climberSolenoid;
 
   static boolean check = true;
   //double intakeSpeed = 0.0;
@@ -74,5 +74,10 @@ public class Intake extends SubsystemBase {
     
     motor.set(speed);
     
+  }
+
+  
+  public static void toggleIntake(){
+    climberSolenoid.toggle();
   }
 }

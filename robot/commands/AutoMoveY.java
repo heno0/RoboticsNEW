@@ -23,7 +23,7 @@ public class AutoMoveY extends CommandBase {
   private double currentPosition;
   private double targetPosition;
 
-  private final double yy;
+  private double yy;
 
   private PIDController yPID;
 
@@ -44,13 +44,16 @@ public class AutoMoveY extends CommandBase {
   @Override
   public void initialize() {
     // initial position for get odometry, this will never change
-    initialPosition = MecanumSubsystem.LFE.getPosition();
+    initialPosition = MecanumSubsystem.RFE.getPosition();
 
+    yy = yy / (0.5*Math.PI);  //feet divided by feed per rotation
     // target position from initial position and the meters of where it wants to go
-    targetPosition = initialPosition+yy;
+    targetPosition = initialPosition-yy;
 
     // creates pid controllers with for X, Y, and rotation for the driving
     yPID = new PIDController(0.5, 0.1, 0.1);
+
+    yPID.setTolerance(3);
     
     // set the point for where the pid controller wants to go, they will calculate for this point
     yPID.setSetpoint(targetPosition);
@@ -61,19 +64,15 @@ public class AutoMoveY extends CommandBase {
   @Override
   public void execute() {
     // gets where the current position is since its in periodic
-    currentPosition = MecanumSubsystem.LFE.getPosition();
+    currentPosition = MecanumSubsystem.RFE.getPosition();
 
-    if (yPID.atSetpoint()) {
-      System.out.println("done");
-      MecanumSubsystem.setSpeeds(0, 0, 0, 0);
-    } else {
-      // move calculations
-      moveY = yPID.calculate(currentPosition);
-      
-      moveY = Constants.maxmin(moveY, 1);
+    // move calculations
+    moveY = yPID.calculate(currentPosition);
+    
+    moveY = Constants.maxmin(moveY, 0.3);
 
-      MecanumSubsystem.setSpeeds(0, moveY, 0, 0.1);
-    }    
+    MecanumSubsystem.setSpeeds(0, moveY, 0, 0.1);
+  
   }
 
 

@@ -32,7 +32,7 @@ public class AutoIndex extends CommandBase {
 
     // to get to index state 1 (one ball loaded but can't be shot yet)
     if (indexState == 0) {
-      if (colorSensorCheck() && Sensors.getDistanceNear()) {
+      if (Indexer.colorSensorCheck() && Sensors.getDistanceNear()) {
         indexState = 1;
         Indexer.enableIndexer(.8);
       }
@@ -48,7 +48,7 @@ public class AutoIndex extends CommandBase {
 
     // to get to index state 3 (two balls loaded, one can be shot)
     if (indexState == 2) {
-      if (colorSensorCheck() && Sensors.getDistanceNear() && Sensors.getDistanceLong()) {
+      if (Indexer.colorSensorCheck() && Sensors.getDistanceNear() && Sensors.getDistanceLong()) {
         indexState = 3;
         Indexer.enableIndexer(0);
         Intake.setIntake(0);
@@ -68,17 +68,7 @@ public class AutoIndex extends CommandBase {
     return false;
   }
 
-  public boolean colorSensorCheck() {
-    // returns true if it is the wanted color, false if it is unwanted
-    if (Sensors.determineColour() == Constants.WANTEDCOLOR) {
-      colorState = true;
-    } 
-    else if (Sensors.determineColour() == Constants.OPPS) {
-      colorState = false;
-    }
-
-    return colorState;
-  }
+  
 
   public String stateToString() {
     // gives information about the state and what that means for the robot

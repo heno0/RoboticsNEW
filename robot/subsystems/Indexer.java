@@ -68,5 +68,17 @@ public class Indexer extends SubsystemBase {
     SmartDashboard.putNumber("INDEX enable Speed", speed);
     logMotor.set(-speed);
   }
+  private static boolean colorState = false;
+  public static boolean colorSensorCheck() {
+    // returns true if it is the wanted color, false if it is unwanted
+    if (Sensors.determineColour() == Constants.WANTEDCOLOR) {
+      colorState = true;
+    } 
+    else if (Sensors.determineColour() == Constants.OPPS) {
+      colorState = false;
+    }
+
+    return colorState;
+  }
 
 }
