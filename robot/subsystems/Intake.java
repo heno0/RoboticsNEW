@@ -22,7 +22,7 @@ public class Intake extends SubsystemBase {
 
   private double speed;
 
-  private static DoubleSolenoid climberSolenoid;
+  private static DoubleSolenoid sol;
 
   static boolean check = true;
   //double intakeSpeed = 0.0;
@@ -32,8 +32,8 @@ public class Intake extends SubsystemBase {
     motor = new Spark(0);
 
     // set climbing solenoid
-    climberSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 3);
-    climberSolenoid.set(Value.kForward);
+    sol = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 3);
+    sol.set(Value.kForward);
 
 
   }
@@ -62,7 +62,7 @@ public class Intake extends SubsystemBase {
     if (RobotContainer.joystick2.getRawButtonPressed(Constants.YBUTTON)) {
       // toggles
       // get pressed so it doesnt keep toggling
-      climberSolenoid.toggle();
+      sol.toggle();
     }
 
 
@@ -78,6 +78,6 @@ public class Intake extends SubsystemBase {
 
   
   public static void toggleIntake(){
-    climberSolenoid.toggle();
+    sol.toggle();
   }
 }

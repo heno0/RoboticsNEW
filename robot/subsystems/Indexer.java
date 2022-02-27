@@ -44,24 +44,12 @@ public class Indexer extends SubsystemBase {
     if (RobotContainer.joystick2.getRawButtonReleased(Constants.LBUMPER)||RobotContainer.joystick2.getRawButtonReleased(Constants.RBUMPER)){
       enableIndexer(0);
     }
-  }
-  
-  private void intermittentIndexerIncrease() {
-    //indexSpeed = RobotContainer.joystick2.getRawAxis(Constants.LEFTSTICKY);
-   
-    if (Math.abs(indexSpeed) < 0.1){
-     // indexSpeed = 0;
-    }
-    else {
-     // AutoIndex.resetState();
-    }
-    if (RobotContainer.joystick2.getRawButton(Constants.RBUMPER)) {
-      indexSpeed = 0.5;
+
+    if (RobotContainer.joystick.getRawButtonPressed(7)){
       AutoIndex.resetState();
     }
-    enableIndexer(indexSpeed);
   }
-
+  
 
 
   public static void enableIndexer(double speed) {

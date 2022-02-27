@@ -55,9 +55,8 @@ public class Robot extends TimedRobot {
 
     table = NetworkTableInstance.getDefault().getTable("").getEntry("CameraSelection");
 
-    frontCamera.setResolution(320, 240); //dropped resolution
+    frontCamera.setResolution(640, 480);
     climbingCamera.setResolution(640, 480);
-
     joystick = new Joystick(Constants.JOYSTICKID);
 
     color = DriverStation.getAlliance();
@@ -118,7 +117,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     if (joystick.getRawButtonPressed(8)) {
 
-      if(table.getString("")==frontCamera.getName()){ 
+      if(table.getString("")==frontCamera.getName()){
         cameraType = "Climbing Camera";
         table.setString(climbingCamera.getName());
       }
@@ -163,3 +162,5 @@ public class Robot extends TimedRobot {
     return returnCol;
   }
 }
+
+//UwU

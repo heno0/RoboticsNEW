@@ -11,7 +11,7 @@ import frc.robot.subsystems.Shooter;
 
 public class LimelightShooterAuto extends CommandBase {
   
-  static double shooterArea;
+  static double distance;
   static double shooterSpeed;
 
   private boolean isFinished;
@@ -34,10 +34,11 @@ public class LimelightShooterAuto extends CommandBase {
     // get area for calculations
 
 
-    shooterArea = Limelight.getTargetArea();
+    // get target distance from limelight
+    distance = Limelight.getTargetDistance();
 
     // calculate shooter speed from shooter area
-    shooterSpeed = ((-0.00027*shooterArea) + 1.17456);
+    shooterSpeed = (0.7) - (0.03 * distance) + (0.002 * (distance*distance));
 
     if (shooterSpeed > 1) {
       shooterSpeed = 1;

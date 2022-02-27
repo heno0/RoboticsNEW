@@ -61,25 +61,18 @@ public class Shooter extends SubsystemBase {
   
 
     
-    // display number
-    SmartDashboard.putNumber("Shooter Speed", pow3);
 
     
-    // if start button is pressed then increase factor by .05
-    if (RobotContainer.joystick2.getRawButtonPressed(8)) {
-      factor =+ increment;
-    }
-    // if back button is pressed then decrease factor by .05
-    else if (RobotContainer.joystick2.getRawButtonPressed(7)) {
-      factor =- increment;
-    }
-    
+  
   }
   
 
   // set shooter speeds
   public static void setShooterSpeeds(double speed) {
     speed = Constants.maxmin(speed, 1);
+    
+    // display number
+    SmartDashboard.putNumber("Shooter Speed", speed);
 
     motor1.set(-speed);
     motor2.set(speed);

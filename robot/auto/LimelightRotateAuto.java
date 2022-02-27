@@ -51,19 +51,14 @@ public class LimelightRotateAuto extends CommandBase {
 
     if (Math.abs(xOffset) > threshold) {
       // https://www.desmos.com/calculator/jmnqcraj3g
+      // if x offset deg is greater than threshold rotate at offset/83
       adjustRotation = xOffset/83;
-      if (adjustRotation > 1) {
-        adjustRotation = 1;
-      }
-      else if (adjustRotation < -1) {
-        adjustRotation = -1;
-      }
       SmartDashboard.putNumber("limelight rotation", adjustRotation);
       
-      adjustRotation = Constants.maxmin(adjustRotation, 0.5);
+      adjustRotation = Constants.maxmin(adjustRotation, 1);
 
       MecanumSubsystem.setSpeeds(0, 0, adjustRotation, .036);
-    } else if (Limelight.ifTarget()){
+    } else {
       adjustRotation = 0;
       MecanumSubsystem.setSpeeds(0, 0, adjustRotation, .1);
       isFinished = true;

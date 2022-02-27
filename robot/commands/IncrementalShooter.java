@@ -6,11 +6,13 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Shooter;
 
 public class IncrementalShooter extends CommandBase {
   private double pow3;
+  double increment = 0.05;
   /** Creates a new IncrementalShooter. */
   public IncrementalShooter(Shooter shooter) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -25,8 +27,8 @@ public class IncrementalShooter extends CommandBase {
   @Override
   public void execute() {
     
-    pow3 = RobotContainer.joystick2.getRawAxis(Constants.RT) - RobotContainer.joystick2.getRawAxis(Constants.LT);
- 
+    //pow3 = RobotContainer.joystick2.getRawAxis(Constants.RT) - RobotContainer.joystick2.getRawAxis(Constants.LT);
+    /*
     if (pow3 > 0) {
       pow3 = (Math.pow(pow3, 2)) / 1.25 + .2;
       if (pow3 < .3) {
@@ -37,8 +39,14 @@ public class IncrementalShooter extends CommandBase {
       pow3 = -((Math.pow(pow3, 2)) / 1.25) - .2;
       if (pow3 > -.3) {
         pow3 = 0;
-      }
+      } 
+    } **/
+    if (RobotContainer.joystick.getRawButtonPressed(Constants.RBUMPER)) {
+      pow3 = pow3 + increment;
+    } else if (RobotContainer.joystick.getRawButtonPressed(Constants.LBUMPER)) {
+      pow3 = pow3 - increment;
     }
+
 
     //setting motors
     Shooter.setShooterSpeeds(pow3);
