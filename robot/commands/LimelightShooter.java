@@ -46,7 +46,7 @@ public class LimelightShooter extends CommandBase {
     distance = Limelight.getTargetDistance();
 
     // calculate shooter speed from shooter area
-    shooterSpeed = (0.7) - (0.03 * distance) + (0.002 * (distance*distance));
+    shooterSpeed = (0.7) - (0.03 * distance) + (0.002 * (distance*distance) + 0.02);
 
     // factor calculations
     if (RobotContainer.joystick2.getRawButtonPressed(8)) {
@@ -72,6 +72,7 @@ public class LimelightShooter extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     Shooter.setShooterSpeeds(0);
+    AutoIndex.resetState();
     Limelight.disableLimelight();
   }
 

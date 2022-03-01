@@ -61,7 +61,7 @@ public class MecanumCommand extends CommandBase {
     }
 
     // setting the speeds
-    MecanumSubsystem.setSpeeds(stickX, stickY, rotation, 0.1);
+    MecanumSubsystem.setSpeeds(stickX, stickY, rotation, 0.2);
     
   }
 

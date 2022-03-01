@@ -7,6 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Sensors;
@@ -34,7 +35,7 @@ public class AutoIndex extends CommandBase {
     if (indexState == 0) {
       if (Indexer.colorSensorCheck() && Sensors.getDistanceNear()) {
         indexState = 1;
-        Indexer.enableIndexer(.8);
+        Indexer.enableIndexer(-.7);
       }
     }
 
@@ -51,7 +52,6 @@ public class AutoIndex extends CommandBase {
       if (Indexer.colorSensorCheck() && Sensors.getDistanceNear() && Sensors.getDistanceLong()) {
         indexState = 3;
         Indexer.enableIndexer(0);
-        Intake.setIntake(0);
       }
     }
 
@@ -72,6 +72,7 @@ public class AutoIndex extends CommandBase {
 
   public String stateToString() {
     // gives information about the state and what that means for the robot
+    // made because of boredom : (
     if (indexState == 0) {
       stateString = "(0) No ball loaded";
     }

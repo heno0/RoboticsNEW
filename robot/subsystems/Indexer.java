@@ -10,12 +10,16 @@ import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.commands.AutoIndex;
 
 public class Indexer extends SubsystemBase {
   private double indexSpeed = 0;
   private static Spark logMotor;
+
+  
+  private static boolean colorState = false;
 
 
 
@@ -56,17 +60,10 @@ public class Indexer extends SubsystemBase {
     SmartDashboard.putNumber("INDEX enable Speed", speed);
     logMotor.set(-speed);
   }
-  private static boolean colorState = false;
   public static boolean colorSensorCheck() {
     // returns true if it is the wanted color, false if it is unwanted
-    if (Sensors.determineColour() == Constants.WANTEDCOLOR) {
-      colorState = true;
-    } 
-    else if (Sensors.determineColour() == Constants.OPPS) {
-      colorState = false;
-    }
+    return (Sensors.determineColour() == Robot.getAllianceColor() && Sensors.getDistanceNear());
 
-    return colorState;
   }
 
 }

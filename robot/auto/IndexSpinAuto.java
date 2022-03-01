@@ -2,6 +2,7 @@ package frc.robot.auto;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Indexer;
+import frc.robot.subsystems.Sensors;
 
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
@@ -37,7 +38,6 @@ public class IndexSpinAuto extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
 
   }
 

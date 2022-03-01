@@ -31,23 +31,10 @@ public class Limelight extends SubsystemBase {
   private static double horizontal;
   private static double vertical;
   
-  static double[] horizontalAve = {0,0,0,0,0,0,0,0,0,0};
-  static double[] verticalAve = {0,0,0,0,0,0,0,0,0,0};
-  static int counter = 0;
-  static int counter2 = 0;
-
-  static double averageH;
-  static double averageV;
-
-  double total = 0;
-  double total2 = 0;
-
-  int count = 0;
-  int count2 = 0;
 
   static double distance = 0;
 
-  double x;
+  static double x;
 
   /** Creates a new Limelight. */
   public Limelight() {
@@ -78,13 +65,18 @@ public class Limelight extends SubsystemBase {
     // offset from crosshair
     xOffset = table.getEntry("tx").getDouble(0.0);
     yOffset = table.getEntry("ty").getDouble(0.0);
-    // amount of space the target fills
-    area = table.getEntry("ta").getDouble(0.0);
 
     horizontal = table.getEntry("thor").getDouble(0.0);
     vertical = table.getEntry("tvert").getDouble(0.0);
 
     ifTarget = table.getEntry("tv").getBoolean(false);
+    
+    // get horizontal from limelight
+    x = table.getEntry("thor").getDouble(0.0);
+    // (a) - (bx) + (cx * x^2)
+    distance = (23.3) - (0.0275 * (x)) - ((0.00417) * x*x);
+    
+    SmartDashboard.putNumber("detected distance", distance);
 
     SmartDashboard.putNumber("vertical", vertical);
     SmartDashboard.putNumber("horizontal", horizontal);
@@ -92,44 +84,10 @@ public class Limelight extends SubsystemBase {
     SmartDashboard.putNumber("y offset", yOffset);
     SmartDashboard.putBoolean("if target", ifTarget);
     
-    
-    // get average of 10 values of horizontal
-   if (horizontalAve.length == 10) {
-      horizontalAve[counter2] = horizontal;
-      counter2++;
-      if (counter2 == 10) {
-        counter2 = 0;
-      }
-    }
-    for (int i = 0; i < (horizontalAve.length-1); i++) {
-      total =+ horizontalAve[i];
-    }
-    averageH = total/(horizontalAve.length-1);
-
-    // get average of 10 values of vertical
-   if (verticalAve.length == 10) {
-      verticalAve[count2] = vertical;
-      count2++;
-      if (count2 == 10) {
-        count2 = 0;
-      }
-    }
-    for (int u = 0; u < (verticalAve.length-1); u++) {
-      total2 =+ verticalAve[u];
-    }
-    averageV = total2/(verticalAve.length-1);
-
-    // get horizontal from limelight
-    x = horizontal;
-    // (a) - (bx) + (cx * x^2)
-    distance = (43.2) - (0.389 * (x)) + ((0.0011) * x*x);
 
 
-    SmartDashboard.putNumber("detected distance", distance);
-    SmartDashboard.putNumber("average vertical", averageV);
-    SmartDashboard.putNumber("average horizontal", averageH);
 
-    //MecanumSubsystem.setSpeeds(0, adjustX, adjustRotation, .1);
+
   }
 
 

@@ -15,7 +15,7 @@ public class LimelightRotate extends CommandBase {
   /** Creates a new LimelightRotate. */
 
   double xOffset;
-  double threshold =3;
+  double threshold = 2;
   double adjustRotation;
 
 
@@ -49,7 +49,7 @@ public class LimelightRotate extends CommandBase {
 
       SmartDashboard.putNumber("limelight rotation", adjustRotation);
       
-      MecanumSubsystem.setSpeeds(0, 0, adjustRotation, .036);
+      MecanumSubsystem.setSpeeds(0, 0, adjustRotation, .020);
     } else {
       adjustRotation = 0;
       MecanumSubsystem.setSpeeds(0, 0, adjustRotation, .1);

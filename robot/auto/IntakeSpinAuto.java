@@ -1,8 +1,10 @@
 package frc.robot.auto;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Robot;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Sensors;
 
 
 
@@ -35,7 +37,7 @@ public class IntakeSpinAuto extends CommandBase{
 
     if (Indexer.colorSensorCheck()){
       isFinished = true;
-    } 
+    }
 
 
   }

@@ -18,7 +18,7 @@ public class Intake extends SubsystemBase {
   private static Spark motor;
 
   // intake is used to check if the intake motors are moving in, out, or not moving
-  private String intake;
+  private String intake = "";
 
   private double speed;
 
@@ -49,8 +49,8 @@ public class Intake extends SubsystemBase {
     } else if (RobotContainer.joystick2.getRawButton(Constants.XBUTTON)) {
       speed = .75;
     } else {
-      intake = "";
       speed = 0;
+      intake = "";
     }
 
     if (speed > 0) {

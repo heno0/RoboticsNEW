@@ -23,7 +23,6 @@ public class Shooter extends SubsystemBase {
   
   
   static double increment = 0.05;
-  static double factor = 1;
 
 
   private RelativeEncoder encoder;
@@ -59,11 +58,6 @@ public class Shooter extends SubsystemBase {
     // get rpm for shooter motor
     SmartDashboard.putNumber("rpm", encoder.getVelocity());
   
-
-    
-
-    
-  
   }
   
 
@@ -72,13 +66,11 @@ public class Shooter extends SubsystemBase {
     speed = Constants.maxmin(speed, 1);
     
     // display number
+    SmartDashboard.putNumber("Shooter Speed Dial", speed);
     SmartDashboard.putNumber("Shooter Speed", speed);
 
     motor1.set(-speed);
     motor2.set(speed);
   }
 
-  public static double getFactor() {
-    return factor;
-  }
 }

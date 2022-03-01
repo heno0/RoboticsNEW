@@ -9,6 +9,8 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Robot;
+import frc.robot.RobotContainer;
 import frc.robot.auto.DoNothing;
 import frc.robot.auto.IndexSpinAuto;
 import frc.robot.auto.IntakeCommandAuto;
@@ -32,13 +34,13 @@ public class AutoPlan extends SequentialCommandGroup {
         new IntakeSpinAuto(intake)
       ),
       //new AutoMoveY(meca, 50), //distance in feet
-       new ParallelRaceGroup(
+      new ParallelRaceGroup(
         new DoNothing(75), 
         new AutoMoveRot(meca)),
         new ParallelCommandGroup(
           new LimelightRotateAuto(meca),
           new DoNothing(50)
-        ),
+      ),
       new LimelightShooterAuto(shooter, false),
       new DoNothing(50),
       new ParallelRaceGroup(
