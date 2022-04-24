@@ -45,8 +45,6 @@ public class LimelightShooter extends CommandBase {
     // get area for calculations
     distance = Limelight.getTargetDistance();
 
-    // calculate shooter speed from shooter area
-    shooterSpeed = (0.7) - (0.03 * distance) + (0.002 * (distance*distance) + 0.02);
 
     // factor calculations
     if (RobotContainer.joystick2.getRawButtonPressed(8)) {
@@ -56,11 +54,12 @@ public class LimelightShooter extends CommandBase {
       factor = factor - 0.05;
     }
 
+    shooterSpeed = Limelight.getShooterSpeed();
+
     shooterSpeed = shooterSpeed + factor;
 
     // display factor
     SmartDashboard.putNumber("factor", factor);
-
 
     // set shooter speeds
     Shooter.setShooterSpeeds(shooterSpeed);

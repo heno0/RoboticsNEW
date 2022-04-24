@@ -52,6 +52,10 @@ public final class Constants {
     public static final float STARTX = 0;
     public static final float STARTY = 0;
 
+    public static final float WHEELCIRCUMFRENCE = 18.84956f;
+    public static final float ROTATIONSRATIO = 13.09f;
+
+
 
     public static double maxmin(double value, double maxmin) {
         if (value > maxmin) {

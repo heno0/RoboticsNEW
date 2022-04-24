@@ -49,9 +49,9 @@ public class Sensors extends SubsystemBase {
   public static String determineColour() {
     
     //ranges between 0 and 2047, 800 chosen arbitrarily
-    if (colorSensor.getProximity() > 800 && red > blue){
+    if (colorSensor.getProximity() > 700 && red > blue){
       color = "Red";
-    } else if (colorSensor.getProximity() > 800 && blue > red){
+    } else if (colorSensor.getProximity() > 700 && blue > red){
       color = "Blue";
     } else {
       color = "Other";

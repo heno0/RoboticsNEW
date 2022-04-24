@@ -22,6 +22,8 @@ public class Limelight extends SubsystemBase {
   private double yOffset;
   private static double area;
 
+  private static double shooterSpeed;
+
 
   // drive values
   private double adjustRotation;
@@ -35,6 +37,9 @@ public class Limelight extends SubsystemBase {
   static double distance = 0;
 
   static double x;
+
+  static double x2;
+  static double distance2;
 
   /** Creates a new Limelight. */
   public Limelight() {
@@ -122,6 +127,16 @@ public class Limelight extends SubsystemBase {
   }
   public static double getTargetDistance() {
     return distance;
+  }
+  public static double getShooterSpeed() {
+    // get horizontal from limelight
+    x2 = table.getEntry("thor").getDouble(0.0);
+
+    // (a) - (bx) + (cx * x^2)
+    distance2 = (23.3) - (0.0275 * (x2)) - ((0.00417) * x2*x2);
+
+    // calculate shooter speed from shooter area
+    return (0.7) - (0.03 * distance2) + (0.002 * (distance2*distance2));
   }
 
 }

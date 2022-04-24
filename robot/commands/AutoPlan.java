@@ -11,12 +11,14 @@ import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
+import frc.robot.auto.AutoShooter;
 import frc.robot.auto.DoNothing;
 import frc.robot.auto.IndexSpinAuto;
 import frc.robot.auto.IntakeCommandAuto;
 import frc.robot.auto.IntakeSpinAuto;
 import frc.robot.auto.LimelightRotateAuto;
 import frc.robot.auto.LimelightShooterAuto;
+import frc.robot.auto.RotateAuto;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.MecanumSubsystem;
@@ -27,8 +29,29 @@ public class AutoPlan extends SequentialCommandGroup {
   public AutoPlan(MecanumSubsystem meca, Indexer index, Intake intake, Shooter shooter) {
     // Use addRequirements() here to declare subsystem dependencies.
     addCommands(
+      // drops intake and moves out of tarmac
       new IntakeCommandAuto(intake),
+      new AutoMoveY(meca, 100),
 
+      // spins intake motor and then spins until limelight sees something
+      new IntakeSpinAuto(intake),
+      new ParallelRaceGroup(
+        new RotateAuto(meca),
+        new DoNothing(70)
+      ),
+      new LimelightRotateAuto(meca),
+
+      // after it sees something it revs the shooter then shoots
+      new AutoShooter(shooter, .9),
+      new DoNothing(40),
+      new AutoIndex(index)
+
+
+      /*
+      new AutoShooter(shooter, .8),
+      new DoNothing(50),
+      new IndexSpinAuto(index)
+    
       new ParallelRaceGroup(
         new AutoMoveY(meca, 100),
         new IntakeSpinAuto(intake)
@@ -48,7 +71,7 @@ public class AutoPlan extends SequentialCommandGroup {
         new IndexSpinAuto(index)
       ),
       new LimelightShooterAuto(shooter, true)
-
+    **/
     );
   }
 }

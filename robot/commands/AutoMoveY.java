@@ -35,7 +35,7 @@ public class AutoMoveY extends CommandBase {
   /** Creates a new AutoMove. */
   public AutoMoveY(MecanumSubsystem mecanum, final double yy) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.yy = yy;
+    this.yy = (yy/Constants.WHEELCIRCUMFRENCE)*Constants.ROTATIONSRATIO;
 
     addRequirements(mecanum);
   }
@@ -69,9 +69,13 @@ public class AutoMoveY extends CommandBase {
     // move calculations
     moveY = yPID.calculate(currentPosition);
     
-    moveY = Constants.maxmin(moveY, 0.3);
+    moveY = Constants.maxmin(moveY, .3);
 
-    MecanumSubsystem.setSpeeds(0, moveY, 0, 0.1);
+    SmartDashboard.putNumber("current position", currentPosition);
+    SmartDashboard.putNumber("target", targetPosition);
+
+    SmartDashboard.putNumber("y", moveY*Math.signum(yy));
+    MecanumSubsystem.setSpeeds(0, Math.abs(moveY)*Math.signum(yy)*-1, 0, 0.1);
   
   }
 

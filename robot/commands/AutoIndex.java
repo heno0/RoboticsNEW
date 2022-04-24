@@ -55,6 +55,13 @@ public class AutoIndex extends CommandBase {
       }
     }
 
+    // if index state 2 or 3, no balls detected then reset state
+    if (indexState == 3 || indexState == 2) {
+      if (Sensors.getDistanceNear() == false && Sensors.getDistanceLong() == false) {
+        indexState = 0;
+      }
+    }
+
     SmartDashboard.putString("State", stateToString());
   }
 

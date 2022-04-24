@@ -40,7 +40,9 @@ public class MecanumSubsystem extends SubsystemBase {
 
   // wheel encoders, e.g.(R = right, B = back, E = encoder)
   public static RelativeEncoder RFE;
-
+  public static RelativeEncoder BLE;
+  public static RelativeEncoder BRE;
+  
 
 
 
@@ -55,6 +57,7 @@ public class MecanumSubsystem extends SubsystemBase {
     // left
     frontLeft = new CANSparkMax(Constants.FRONTLEFTMOTOR, MotorType.kBrushless);
     backLeft = new CANSparkMax(Constants.BACKLEFTMOTOR, MotorType.kBrushless);
+    
 
 
     RFE = frontRight.getEncoder();
@@ -90,7 +93,7 @@ public class MecanumSubsystem extends SubsystemBase {
 
     SmartDashboard.putNumber("rotation", rotation);
     SmartDashboard.putNumber("stick X", stickX);
-    SmartDashboard.putNumber("stick y", stickY);
+    SmartDashboard.putNumber("stick yy", stickY);
 
     // math (thanks damian)
     // right
@@ -102,9 +105,6 @@ public class MecanumSubsystem extends SubsystemBase {
     backLeftPower = stickY - stickX + rotation;
 
 
-    stickX = Constants.maxmin(stickX, 1);
-    stickY = Constants.maxmin(stickY, 1);
-    rotation = Constants.maxmin(rotation, 1);
     // setting motor speeds
     // right
     frontRight.set(frontRightPower);
@@ -114,4 +114,6 @@ public class MecanumSubsystem extends SubsystemBase {
     frontLeft.set(frontLeftPower);
     backLeft.set(backLeftPower);
   }
+
+  
 }

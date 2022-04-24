@@ -15,7 +15,7 @@ public class LimelightRotate extends CommandBase {
   /** Creates a new LimelightRotate. */
 
   double xOffset;
-  double threshold = 2;
+  double threshold = .5;
   double adjustRotation;
 
 

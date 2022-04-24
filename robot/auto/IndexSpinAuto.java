@@ -32,7 +32,8 @@ public class IndexSpinAuto extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Indexer.enableIndexer(0.8);
+    Indexer.enableIndexer(-0.9);
+    isFinished = true;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -44,12 +45,12 @@ public class IndexSpinAuto extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Indexer.enableIndexer(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    System.out.println("FART");
     return isFinished;
   }
   

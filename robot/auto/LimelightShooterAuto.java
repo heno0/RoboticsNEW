@@ -38,7 +38,7 @@ public class LimelightShooterAuto extends CommandBase {
     distance = Limelight.getTargetDistance();
 
     // calculate shooter speed from shooter area
-    shooterSpeed = (0.7) - (0.03 * distance) + (0.002 * (distance*distance));
+    shooterSpeed = Limelight.getShooterSpeed(); 
 
     if (shooterSpeed > 1) {
       shooterSpeed = 1;
@@ -52,7 +52,7 @@ public class LimelightShooterAuto extends CommandBase {
     if (shooterOff){
       Shooter.setShooterSpeeds(0);
     } else {
-      Shooter.setShooterSpeeds(shooterSpeed);
+      Shooter.setShooterSpeeds(.75);
     }
 
     isFinished = true;

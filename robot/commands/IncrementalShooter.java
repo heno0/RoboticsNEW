@@ -11,7 +11,7 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.Shooter;
 
 public class IncrementalShooter extends CommandBase {
-  private double pow3;
+  private double pow3 = 0;
   double increment = 0.05;
   /** Creates a new IncrementalShooter. */
   public IncrementalShooter(Shooter shooter) {
@@ -45,6 +45,10 @@ public class IncrementalShooter extends CommandBase {
       pow3 = pow3 + increment;
     } else if (RobotContainer.joystick.getRawButtonPressed(Constants.LBUMPER)) {
       pow3 = pow3 - increment;
+    } else if (RobotContainer.joystick.getPOV() == 0) {
+      pow3 = pow3 + .015;
+    } else if (RobotContainer.joystick.getPOV() == 180) {
+      pow3 = pow3 - .015;
     }
 
 

@@ -22,7 +22,7 @@ public class Intake extends SubsystemBase {
 
   private double speed;
 
-  private static DoubleSolenoid sol;
+  public static DoubleSolenoid sol;
 
   static boolean check = true;
   //double intakeSpeed = 0.0;
@@ -79,5 +79,8 @@ public class Intake extends SubsystemBase {
   
   public static void toggleIntake(){
     sol.toggle();
+  }
+  public static void setIntakeSol(Value value) {
+    sol.set(value);
   }
 }

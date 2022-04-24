@@ -18,6 +18,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AutoPlan;
+import frc.robot.commands.AutoPlan2;
 import frc.robot.commands.IncrementalShooter;
 import frc.robot.commands.LimelightRotate;
 import frc.robot.commands.LimelightShooter;
@@ -47,7 +48,7 @@ public class RobotContainer {
   private IncrementalShooter shooterCommand;
   private Shooter shooter;
   private Sensors sensors;
-  private Compressor compressor;
+  private static Compressor compressor;
 
 
   //AT
@@ -123,6 +124,10 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // the command set here will run in autonomous
-    return new AutoPlan(mecanumSubsystem, indexer, intake, shooter);
+    return new AutoPlan2(mecanumSubsystem, indexer, shooter, intake);
+  }
+
+  public static void enableCompressor() {
+    compressor.enableDigital();
   }
 }

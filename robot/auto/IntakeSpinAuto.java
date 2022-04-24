@@ -35,11 +35,6 @@ public class IntakeSpinAuto extends CommandBase{
     Intake.setIntake(-0.9);
 
 
-    if (Indexer.colorSensorCheck()){
-      isFinished = true;
-    }
-
-
   }
 
   // Called once the command ends or is interrupted.
@@ -51,7 +46,7 @@ public class IntakeSpinAuto extends CommandBase{
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return isFinished;
+    return true;
   }
   
 }
